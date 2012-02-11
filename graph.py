@@ -111,12 +111,19 @@ class Graph:
         for i in knownNotConsp:
             self.weightNotConspirator(i)
             
-        L = map(score, range(numNodes))
+        L = map(scoreReport, range(numNodes))
         L.sort(key = lambda X: X[1])
         return map(lambda X:X[0], L)
         
         
-    
+    def scoreReport(self, node):
+        '''Return [node, score]'''
+        score = 0.0
+        for topic in range(1, numTopics + 1):
+            score += self.topicWeight[topic]*(numRec(self, node, topic)+\
+                                     numSent(self, node, topic)+0.0)\
+                                     /topicCount[topic]
+        return [node, score]
 
 def main():
     global knownConsp
