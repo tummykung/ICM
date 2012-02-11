@@ -1,0 +1,33 @@
+Team Joel and Tum!!
+Problem C.
+Due date: Monday some time
+
+Plan
+------------------------
+Sat: complete the problem
+Sun: start writing up
+
+Progress report
+------------------------
+Friday 02/10
+
+3:40pm	Tum:	I created a github repo. We will implement our first
+				prototype. 
+					
+				Basic ideas: 
+				
+							| topic A  	|  topic B 	|
+				person 1	|  	  1		|	  2		|
+				person 2	|	  2		|	  3		|
+				-------------------------------------
+				total		|	  3		|     5		|
+				=====================================
+				
+				scheme: if(known):
+					send += 1
+					receive += 0.5
+				
+				if(unknown):
+					send -= -1
+					receive -= 0.8
+				
