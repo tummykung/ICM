@@ -1,8 +1,28 @@
 numNodes = 83
 numTopics = 15
 
-knownConsp = ['Jean','Alex','Elsie','Paul','Ulf','Yao','Harvey']
-knownNotConsp = ['Darlene','Tran','Ellin','Gard','Chris','Paige','Este']
+knownConsp = ['Jean','Alex','Elsie','Paul','Ulf','Yao','Harvey',]
+knownNotConsp = ['Darlene','Tran','Ellin','Gard','Paige','Este','Chris']
+
+def findLast(L1,L2):
+    '''Returns the index of the last element of L1 in L2
+        Assumes L1 is a subset of L2'''
+    indexMax = 0
+    for i in L1:
+        if L2.index(i) > indexMax:
+            indexMax = L2.index(i)
+    return indexMax
+
+def findFirst(L1,L2):
+    '''Returns the index of the firs element of L1 in L2
+        Assumes L1 is a subset of L2'''
+    indexMin = len(L2)
+    for i in L1:
+        if L2.index(i) < indexMin:
+            indexMin = L2.index(i)
+    return indexMin
+
+
 class Names:
     def __init__(self, nameFile):
         f = open(nameFile, "r")
@@ -26,11 +46,14 @@ class Names:
 
 class Graph:
     def __init__(self,messageFile):
+        self.fullList = []
         self.D = {}
         self.notConspSend = -.5
-        self.notConspRec = -.8
+        self.notConspRec = -1
         self.conspSend = 1
         self.conspRec = .5
+        self.certaintyNotConsp = [0]*numNodes
+        self.certaintyConsp = [0]*numNodes
         self.topicCount = [0]*(numTopics+1)
         self.topicWeight = [0,  #Not in use\
                             0,  #1\
@@ -39,13 +62,13 @@ class Graph:
                             0,  #4\
                             0,  #5\
                             0,  #6\
-                            1,  #7\
+                            10,  #7\
                             0,  #8\
                             0,  #9\
                             0,  #10\
-                            1,  #11\
+                            10,  #11\
                             0,  #12\
-                            1,  #13\
+                            10,  #13\
                             0,  #14\
                             0]  #15
         f = open(messageFile, 'r')
@@ -111,18 +134,44 @@ class Graph:
         for i in knownNotConsp:
             self.weightNotConspirator(i)
             
-        L = map(scoreReport, range(numNodes))
-        L.sort(key = lambda X: X[1])
-        return map(lambda X:X[0], L)
-        
+        L = map(self.scoreReport, range(numNodes))
+        L.sort(key = lambda X: X[1], reverse = True)
+        self.fullList = map(lambda X:X[0], L)
+        return self.fullList
+
+    def runLaterRound(self):
+        for i in knownConsp:
+            self.certaintyConsp[i] = 1
+
+        for i in knownNotConsp:
+            self.certaintyNotConsp[i] = 1
+            
+        for i in self.fullList[:findLast(knownConsp, self.fullList)+1]:
+            #Every possible conspirator
+            if (knownNotConsp.count(i) == 0 or knownConsp.count(i) == 0):
+                self.certaintyConsp[i] = (self.certaintyConsp[i]+1)/2.0
+
+        for i in self.fullList[findFirst(knownNotConsp, self.fullList):]:
+            #Every likely non-conspirator
+            if (knownNotConsp.count(i) == 0 or knownConsp.count(i) == 0):
+                self.certaintyNotConsp[i] = (self.certaintyNotConsp[i]+1)/2.0
+
+        for i in range(numNodes):
+            self.weightConspirator(i, self.certaintyConsp[i])
+            self.weightNotConspirator(i, self.certaintyNotConsp[i])
+            
+        L = map(self.scoreReport, range(numNodes))
+        L.sort(key = lambda X: X[1], reverse = True)
+        self.fullList = map(lambda X:X[0], L)
+        return self.fullList
         
     def scoreReport(self, node):
         '''Return [node, score]'''
         score = 0.0
         for topic in range(1, numTopics + 1):
-            score += self.topicWeight[topic]*(numRec(self, node, topic)+\
-                                     numSent(self, node, topic)+0.0)\
-                                     /topicCount[topic]
+            score += self.topicWeight[topic]*(self.numRec(node, topic)+\
+                                     self.numSent(node, topic)+0.0)\
+                                     /self.topicCount[topic]
         return [node, score]
 
 def main():
@@ -132,7 +181,10 @@ def main():
     graph = Graph('messages.txt')
     knownConsp = names.namesToNum(knownConsp)
     knownNotConsp = names.namesToNum(knownNotConsp)
+    L = graph.runFirstRound()
+    #for i in range(5):
+     #   graph.runLaterRound()
+    print names.numsToNames(L)
     
 
 if __name__ == '__main__': main()
-        
