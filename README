@@ -30,4 +30,6 @@ Friday 02/10
 			if(!conspirator):
 				send -= -0.5
 				receive -= 0.8
-				
+
+5:02pm	Joel:	found error in the input line 215 in the Excel
+		14	25	1	6	"18"
