@@ -33,3 +33,26 @@ Friday 02/10
 
 5:02pm	Joel:	found error in the input line 215 in the Excel
 		14	25	1	6	"18"
+
+5:34pm  Tum:   Here is the identification number of people:
+		
+		Known to be conspirators
+		---------
+		Jean 18
+		Alex 21
+		Elsie 37
+		Ulf 54
+		Yao 67
+		Harvey 49
+		
+		
+		Known to NOT be conspirators
+		----------------------------
+		Darlene 48
+		Tran 64
+		Jia 65
+		Ellin 68
+		Gard 74
+		Chris 0
+		Paige 2
+		Este 78
