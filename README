@@ -15,19 +15,19 @@ Friday 02/10
 				prototype. 
 					
 				Basic ideas: 
+			
+				| 	topic A  	|  topic B 	|
+		person 1	|  	  1		|	  2	|
+		person 2	|	  2		|	  3	|
+		---------------------------------------------------------
+		total		|	  3		|     5		|
+		=========================================================
+		
+		scheme: if(known):
+				send += 1
+				receive += 0.5
 				
-							| topic A  	|  topic B 	|
-				person 1	|  	  1		|	  2		|
-				person 2	|	  2		|	  3		|
-				-------------------------------------
-				total		|	  3		|     5		|
-				=====================================
-				
-				scheme: if(known):
-					send += 1
-					receive += 0.5
-				
-				if(unknown):
-					send -= -1
-					receive -= 0.8
+			if(!conspirator):
+				send -= -0.5
+				receive -= 0.8
 				
