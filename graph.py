@@ -1,3 +1,10 @@
+#
+# Authors: Joel, Tum
+# Date: 2/11/2012
+# Harvey Mudd College
+# ICM Problem C
+#
+
 numNodes = 83
 numTopics = 15
 
@@ -48,10 +55,10 @@ class Graph:
     def __init__(self,messageFile):
         self.fullList = []
         self.D = {}
-        self.notConspSend = -.5
-        self.notConspRec = -1
+        self.notConspSend = -0.2
+        self.notConspRec = -0.3
         self.conspSend = 1
-        self.conspRec = .5
+        self.conspRec = 0.5
         self.certaintyNotConsp = [0]*numNodes
         self.certaintyConsp = [0]*numNodes
         self.topicCount = [0]*(numTopics+1)
@@ -137,7 +144,7 @@ class Graph:
         L = map(self.scoreReport, range(numNodes))
         L.sort(key = lambda X: X[1], reverse = True)
         self.fullList = map(lambda X:X[0], L)
-        return self.fullList
+        return L 
 
     def runLaterRound(self):
         for i in knownConsp:
@@ -163,7 +170,7 @@ class Graph:
         L = map(self.scoreReport, range(numNodes))
         L.sort(key = lambda X: X[1], reverse = True)
         self.fullList = map(lambda X:X[0], L)
-        return self.fullList
+        return (L, self.certaintyConsp, self.certaintyNotConsp)
         
     def scoreReport(self, node):
         '''Return [node, score]'''
@@ -182,9 +189,13 @@ def main():
     knownConsp = names.namesToNum(knownConsp)
     knownNotConsp = names.namesToNum(knownNotConsp)
     L = graph.runFirstRound()
-    #for i in range(5):
-     #   graph.runLaterRound()
-    print names.numsToNames(L)
+    for i in range(40):
+        (L, con, notC) = graph.runLaterRound()
+        temp = map(lambda X:(names.getName(X[0]),X[1]) , L)
+        print temp
+        print con
+        print notC
+        print "--------------------------------------------------"
     
 
 if __name__ == '__main__': main()
