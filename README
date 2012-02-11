@@ -27,7 +27,7 @@ Friday 02/10
 					send += 1
 					receive += 0.5
 				
-				if(unknown):
-					send -= -1
+				if(!conspirator):
+					send -= -0.5
 					receive -= 0.8
 				
