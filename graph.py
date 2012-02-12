@@ -214,8 +214,10 @@ def main():
     temp = 1
     topics = 0
     for i in range(10):
-        (L, topics) = graph.runLaterRound()
-        temp = map(lambda X:(names.getName(X[0]),X[1], X[2]) , L)
+        [L, topics] = graph.runLaterRound()
+        temp = map(lambda X:[names.getName(X[0]),X[1], X[2]] , L)
+        for j in range(len(temp)):
+            temp[j][2] = round(temp[j][2],2)
     nicePrintList(temp)
     print "--------------------------------------------------"
     nicePrintTopics(topics)
