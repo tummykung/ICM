@@ -195,10 +195,10 @@ def main():
     knownNotConsp = names.namesToNum(knownNotConsp)
     L = graph.runFirstRound()
     temp = 1
-    for i in range(40):
+    for i in range(10):
         (L, con, notC) = graph.runLaterRound()
         temp = map(lambda X:(names.getName(X[0]),X[1], X[2]) , L)
-    nicePrint(temp)
+        nicePrint(temp)
     #print map(lambda X:X[0],temp)
     print "--------------------------------------------------"
     
