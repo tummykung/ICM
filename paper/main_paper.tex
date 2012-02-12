@@ -183,6 +183,14 @@ network analysis to improve the result and examine applications of
 our developed techniques in other fields such as diseased biology.
 
 
+We found an error in data in the input line 215 in the Excel:
+\begin{verbatim}
+Start node	End node	Text topic 1	Text topic 2	Text topic 3
+	14			25			1				6				"18"
+\end{verbatim}
+The text topic 3 is 18, which is out of range.
+See the assumption section for how we resolve this issue.
+
 \noindent -------------------- TODO:
 the history and context of the problem,
 and your work and results.  Your introduction should be more detailed
@@ -225,6 +233,10 @@ conspiratorial topics to non-conspirators.
 \item Assume that conspirators are more likely to be discussing topics that relate to the conspiracy than anyone else.
 Therefore if a know conspirator is participating a lot in a conversation topic,
 the topic is more likely to be related to the conspiracy than not. 
+
+\item For the erroneous data in line 215 in $\mathtt{Messages.xls}$, 
+we make an assumption that this number is either 1, 8, 10, 11, 12, 13, 14, or 15
+based on possible typos.
 \end{enumerate}
 \section{Methodology: Model Design and Model Algorithms}
 [TODO: JUSTIFY EACH STEP]
