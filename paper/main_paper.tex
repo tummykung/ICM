@@ -169,17 +169,18 @@ To Summarize:
 
 
 Our organization, the Intergalactic Crime Modelers (ICM) is working
-for a criminal case of a bank company.  There are indications that  there is a conspiracy within the company.  
-It is believed that the conspirators want to embezzle funds from the company and to steal funds from credit card 
-Careful logs have been kept of whom has sent messages related to each topic and whom received these messages.
-... [explain the scenario and what we are trying to solve]
+for a criminal case of a bank company.  
+There are indications that there is a conspiracy within the company. 
+It is believed that the conspirators want to embezzle funds from
+the company and to steal funds from credit card 
+Careful logs have been kept of whom has sent messages related to each
+topic and whom received these messages.
 
 The goal to approach this problem is to determine a priority list, 
 to draw a discriminate line, and if possible to find
 conspiracy leaders. In addition, we also want to use semantic
 network analysis to improve the result and examine applications of
 our developed techniques in other fields such as diseased biology.
-[TODO: Explain more.]
 
 \noindent -------------------- TODO:
 the history and context of the problem,
@@ -213,61 +214,145 @@ Paige, and Este are \textit{not} conspirators.
 \item Assume that it is unlikely that conspirators communicate
 conspiratorial topics to non-conspirators.
 \end{enumerate}
-\section{Model Design}
+\section{Methodology: Model Design and Model Algorithms}
 
-\subsection{Setup}
+The algorithm works primarily by giving a different weight to each of the 
+topics based on who is in the conversation. We will run the algorithm
+a couple of times to adjust the likelihood of being conspirators
+based on the new information gained from the most 
+recent round of analysis.
+
+\subsection{Setting Up}
+In this model, we define the following parameters:
 \begin{enumerate}
-\item For each person $i$, $0\leq i\leq 82$, we define three parameters: 
-
-\quad (1) the probability (``certainty'')
+\item  For each person $i$ where $i=0,1,2,\ldots, 82$, 
+we the probability (``certainty'')
 that each person is a conspirator, $c_i,$
 where $0\leq c_i \leq 1.$ 
-We first set $c_i = 0$ for those
+If $c_i=1$, for example, it means that the person
+with number $i$ has $100\%$ chance to be
+a conspirator, according to our model. 
 
-\quad (2) 
+\item  For each person $i$ where $i=0,1,2,\ldots, 82$, in each round of running,
+we give that person a score $s_i$. High score indicates
+the likelihood to be a conspirator, based on the set
+of probability of people being conspirators from each round.
+The difference in the score $s_i$ and the probability $c_i$ of
+being a conspirator is that the score $s_i$ is calculated in each round
+and will affect the probability $c_i$ in the end of each round
+based on the ranking of the score, whereas $c_i$ is the long-run
+probability that will eventually indicate a priority list and
+a discriminate line.
 
-\item We use python to model the problem.
+\item For each topic $j$ where $j=1,2,\ldots,15,$
+we give a weight $w_j$ where $0\leq w_j\leq 1.$
+The more weight of the topic has, the more suspicious it is.
+
+\item  We assign the involvement of person $i$ to the topic $j$ the number
+$\alpha_{i,j}.$
 \end{enumerate}
-\subsection{Theorems}
+
+Note that we use python to model the problem.
+
+\subsection{Initializing}
+\begin{enumerate}
+\item To initialize the values, we set $c_i = 1$ for those that
+we know to be not conspirators ($i=18,21,7,54,67,49$)
+and we set $c_i = 0$ for those that
+we know \textit{not} to be conspirators ($i=48,64,65,68,74,0,2,7$).
+Otherwise, we set $c_i = 0.5.$ In short, in the initial states
+\[c_i=
+\begin{cases}
+1,	& \text{person $i$ is known to be a conspirator}\\
+0,	& \text{person $i$ is known \textit{not} to be a conspirator}\\
+0.5,	&\text{otherwise.}
+\end{cases}\]
+
+\item To calculate $s_i,$ we use the following formula,
+which is the weighted sum of the involvement in each topic,
+\[s_i = \sum_{j=1}^{15} \alpha_{i,j} w_j.\]
+
+\item We rank each person based on the score.
+The group of people who are likely to be 
+cons
+\end{enumerate}
+
+\subsection{Recalculating}
+\begin{enumerate}
+
+\item Run the programs a couple of times to recalculate
+the score 
+
+\item For each person $i$,
+if he or she has a 
+rank higher than that of the lowest-score known conspirators less a constant,
+we adjust his or her certainty (probability) by the following scheme:
+\[c_i := \frac{1 + c_i}{2}.\]
+That is, we take the average with 1 and replace the original by the new value. 
+Because the original $c_i$ is less than 1, the net effect is that
+$c_i$ will be increased so that it is closer to 1 by half-distance.
+
+\item Similarly,
+for each person $i$,
+if he or she has a 
+rank lower than the highest-score known non-conspirators plus a constant,
+we adjust his or her certainty (probability) by the following scheme:
+\[c_i := \frac{c_i}{2}.\]
+That is, we take the average with 0 and replace the original by the new value. 
+Because the original $c_i$ is greater than 0, the net effect is that
+$c_i$ will be decreased so that it is closer to 0 by half-distance.
+
+\end{enumerate}
+\section{Theorems}
 \begin{Theo1}
-For a given point $C$, of all the paths from point $A$ to point $B$, the number of repeaters needed at point $C$ is equivalently increased by 
-$$\frac{\text{nPaths}(A,C)\cdot \text{nPaths}(C,B)}{\text{nPaths}(A,B)},$$
-where $\text{nPaths}(X,Y)$ is a function that returns the number of possible \emph{shortest} paths from $X$ to $Y$, which is given in Theorem 2.
+The algorithm converges.
 \end{Theo1}
 {\bf Proof.}
-It follows from the principle of counting:
-\begin{align*} \text{The weight for additional repeaters at C}
-&=\frac{\text{The number of paths from A to B via C}}{\text{The number of paths from A to B}}\\
-&=\frac{\text{nPaths}(A,C)\cdot \text{nPaths}(C,B)}{\text{nPaths}(A,B)}.
-\end{align*}\hfill $\Box$
-
-{\bf Proof.}
-There are six triangle subsectors of a hexagon. For each sector, the number of triangle is $1, 3, 5, \ldots, (2n-1)$. Each sector represents one area. Thus, the total number of areas is
-$$6(1+ 3+ 5+\cdots+ (2n-1))=6n^2.$$\hfill $\Box$
+The idea might be because we take the average with 1 the 
+probability of people who have
+ranks higher than that of the lowest-score known conspirators less a constant, and we
+take the average with 0 the 
+probability of people who have ranks lower than the highest-score known non-conspirators plus a constant.
+The list of the people in those two groups should not overlap,
+so we will not take the average with 0 and 1 alternatively.
+By using the sum of constants or some multiplication factor
+those two lists should keep expanding until they meet.
+Everyone should be absorbed by exactly one group. 
+\hfill $\Box$
 
 %%=================NEW SECTION
 \section{Model Testing}
 
-Take a look at an example below, where we put the city into our hexagonal coordinate (Both X and Y range from -3 to 3):
-\begin{table}[htbp]
-  \begin{center}
-    \begin{tabular}{@{}c|rrrrrrr@{}} \toprule
-X and Y  	&-3 	&-2 		&-1		&0		&1		&2		&3\\ \midrule   
-3&15.53	&34.87	&36.03	&32.00	&0.00	&0.00	&0.00    \\ 
-2&36.73	&76.12	&104.57	&81.22	&43.00	&0.00	&0.00	\\
-1&37.13	&94.27	&137.75	&138.05	&91.57	&54.00	&0.00	\\
-0&31.0	&82.1	&134.47	&\textbf{158.42}	&140.13	&83.07	&35.00	\\
--1&0.00	&51.0	&113.25	&137.35	&145.05	&111.92	&39.12	\\
--2&0.00	&0.00	&49.00	&89.37	&99.00	&92.42	&46.47	\\
--3&0.00	&0.00	&0.00	&33.00	&32.15	&36.18	&27.72	\\
- \bottomrule	
-    \end{tabular}
-  \end{center}
-  \caption[A Distribution of Repeaters for a Uniform Distribution of People]{The table of the number of conversations (reflecting the number of repeaters) at each point. The number of people is 1000. The level of hexagons is 3.}
-  \label{tab:uniform}
-\end{table}
+Here is the result (sure we need to clean this up):
 
-From Table~\ref{tab:uniform}, we have the total number of repeaters of 2,780. Hence, the actual number of repeaters needed (with help of PL tones) is 51.48. As there are $6\times(3^2)=54$ regions as well, the number of repeaters needed per 1 PL tone per 1 location is 0.953. This can be done easily since we have 3 frequency sets to serve. One concern is the service at the peak: the middle (point $(0,0)$). The original number of repeaters needed is 158.42. By using PL tones, we have the avearge of $2.93$ users using one PL tone. Again, this use can be accommadated by 3 different sets of frequencies. Thus, in this case, the total number of repeaters required is 51.48, approximately \boxed{52 \text{ repeaters}} , each holding differnt 54 PL tones.
+
+[('Yao', 269.3696826414443), ('Alex', 248.25159624805804), ('Ulf', 170.44607292282194), ('Elsie', 107.91782710259969), ('Seeni', 69.4092311734181), ('Marion', 60.15081667708738), ('Jerome', 59.913589798879265), ('Harvey', 55.84169703322986), ('Paul', 54.90632647134443), ('Jean', 40.77878818732485), ('Dolores', 32.159531342553116), ('Kim', 24.361643919169694), ('Gretchen', 23.367079384713396), ('Sheng', 21.46496497943977), ('Cha', 21.32613685445123), ('Dwight', 20.223057774180393), ('Dayi', 16.42221253399016), ('Bariol', 9.562466862329252), ('Fanti', 9.057530816272097), ('Christina', 8.049446869004532), ('Jia', 7.114818405452967), ('Phille', 1.9477975402344825), ('Lars', -0.2836634825684179), ('Andra', -2.000893947500348), ('Wayne', -4.023420759543937), ('Donald', -4.488572562295921), ('Paige', -5.225896391287632), ('Priscilla', -6.477615906899372), ('Carina', -7.284821427828006), ('Chara', -8.980050446822759), ('Neal', -9.15908188762064), ('Cole', -9.161113660274463), ('Vind', -9.37641612827602), ('Lao', -10.638792965330348), ('Darol', -10.638792965330348), ('Quan', -10.777621090318888), ('Tran', -10.777621090318888), ('Melia', -10.97657110161257), ('Elsie', -11.159866202827182), ('Este', -11.707899437878071), ('Le', -12.892255434070426), ('Beth', -14.000335170803277), ('William', -14.451848008330307), ('Olina', -14.810490114752707), ('Malcolm', -15.95065658409456), ('Gard', -16.775782982369233), ('Patricia', -17.403657335757607), ('Marcia', -17.77818082892289), ('Douglas', -18.297595195522916), ('Eric', -18.527678829306797), ('Han', -18.620969465676513), ('Patrick', -18.968384621380654), ('Wesley', -19.217712858040336), ('Louis', -19.73806188412489), ('Mai', -20.136926656651013), ('Reni', -25.044747025310144), ('Gerry', -27.84161523651497), ('Neal', -28.138771651542996), ('Karen', -28.24143810389287), ('Katherine', -28.674060454652754), ('Kristine', -28.786657180218235), ('Erica', -30.459336719804245), ('Hazel', -30.518251825693312), ('Crystal', -31.074338419707306), ('Cory', -32.830990184663776), ('Darlene', -33.93175600242964), ('Hark', -34.93254144093831), ('Ellin', -37.89102658270057), ('Chris', -38.914488351308634), ('Sherri', -41.2563817419928), ('Shelley', -42.464974881047794), ('Sandy', -46.55155420242029), ('Francis', -48.33271922878934), ('Lois', -51.404305327685584), ('Julia', -65.35422875982475), ('Stephanie', -65.3999527056968), ('Jerome', -72.62795945161139), ('Gretchen', -82.17572060966768), ('Claire', -84.77047848286455), ('Beth', -87.44729613327095), ('Kristina', -93.41477879711616), ('Marian', -94.83303782341783), ('Franklin', -103.68927258753226)]
+Certain = [0, 0, 0.75, 0.75, 0, 0, 0, 1.0, 0, 0, 0.875, 0, 0, 0.9999999999854481, 0, 0, 0.9999999999708962, 0.5, 1.0, 0, 0, 1.0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1.0, 0, 0, 0, 0, 0, 1.0, 0, 0, 0, 0, 1.0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1.0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.9999999999708962, 0]
+Uncertain = [1.0, 0.9999999999990905, 1.0, 0.999999999992724, 0.875, 0.9999999999990905, 0.9999999999990905, 0, 0.9999999999990905, 0.9999999999990905, 0.5, 0.9999999999990905, 0.9999999999990905, 0.75, 0.9999999999990905, 0.9999999999990905, 0.875, 0.9999999999990905, 0, 0.9999999999990905, 0.9999999999990905, 0, 0.9999999999990905, 0.9999999999990905, 0.9999999999990905, 0.9999999999990905, 0.9999999999990905, 0.9999999999990905, 0.984375, 0.9999999962747097, 0.9999999999990905, 0.9999999999990905, 0.9999999999990905, 0.9921875, 0.9999999999990905, 0.9999999999990905, 0.9999999999990905, 0.9999999999990905, 0.9999999999990905, 0.9999999999990905, 0.9999999999990905, 0.9999999997671694, 0.9999999999990905, 0, 0.9999999999990905, 0.9999999999990905, 0.9999999999990905, 0.998046875, 1.0, 0.75, 0.9999999999990905, 0.9990234375, 0.9999999999990905, 0.9999999999990905, 0, 0.9999999999990905, 0.998046875, 0.998046875, 0.9999999999990905, 0.9999999999990905, 0.9999998807907104, 0.9999999999990905, 0.9999999999990905, 0.9999999999990905, 1.0, 0.9998779296875, 0.9999999999990905, 0, 1.0, 0.9999999999990905, 0.9999999999990905, 0.9999999999990905, 0.9999999962747097, 0.9999999999990905, 1.0, 0.9998779296875, 0.9999999999990905, 0.9999999999990905, 1.0, 0.9999990463256836, 0.9998779296875, 0.875, 0.9999999999990905]
+
+		We need to fix somehow though, to make certain + uncertain = 1.
+		(Maybe we can go back to when we have only one list, so that we can
+		always impose this condition)
+%Take a look at an example below, where we put the city into our hexagonal coordinate (Both X and Y range from -3 to 3):
+%\begin{table}[htbp]
+%  \begin{center}
+%    \begin{tabular}{@{}c|rrrrrrr@{}} \toprule
+%X and Y  	&-3 	&-2 		&-1		&0		&1		&2		&3\\ \midrule   
+%3&15.53	&34.87	&36.03	&32.00	&0.00	&0.00	&0.00    \\ 
+%2&36.73	&76.12	&104.57	&81.22	&43.00	&0.00	&0.00	\\
+%1&37.13	&94.27	&137.75	&138.05	&91.57	&54.00	&0.00	\\
+%0&31.0	&82.1	&134.47	&\textbf{158.42}	&140.13	&83.07	&35.00	\\
+%-1&0.00	&51.0	&113.25	&137.35	&145.05	&111.92	&39.12	\\
+%-2&0.00	&0.00	&49.00	&89.37	&99.00	&92.42	&46.47	\\
+%-3&0.00	&0.00	&0.00	&33.00	&32.15	&36.18	&27.72	\\
+% \bottomrule	
+%    \end{tabular}
+%  \end{center}
+%  \caption[A Distribution of Repeaters for a Uniform Distribution of People]{The table of the number of conversations (reflecting the number of repeaters) at each point. The number of people is 1000. The level of hexagons is 3.}
+%  \label{tab:uniform}
+%\end{table}
+%
+%From Table~\ref{tab:uniform}, we have the total number of repeaters of 2,780. Hence, the actual number of repeaters needed (with help of PL tones) is 51.48. As there are $6\times(3^2)=54$ regions as well, the number of repeaters needed per 1 PL tone per 1 location is 0.953. This can be done easily since we have 3 frequency sets to serve. One concern is the service at the peak: the middle (point $(0,0)$). The original number of repeaters needed is 158.42. By using PL tones, we have the avearge of $2.93$ users using one PL tone. Again, this use can be accommadated by 3 different sets of frequencies. Thus, in this case, the total number of repeaters required is 51.48, approximately \boxed{52 \text{ repeaters}} , each holding differnt 54 PL tones.
 
 %Figure~\ref{sample1} is an example of repeater coordination.
 %\begin{figure}[!hbtp]
@@ -276,63 +361,28 @@ From Table~\ref{tab:uniform}, we have the total number of repeaters of 2,780. He
 %\caption{Sample 1 Distribution of Repeaters (Maximum at the Middle).\label{white}}
 %\end{figure}
 
-Figure~\ref{fig:sample1} is an example of repeater coordination.
-\begin{figure}[ht]
-\begin{center}
-\scalebox{0.6}{\includegraphics{sample1}}
-\end{center}
-\caption[A Distribution of Repeaters for a Uniform People Distribution]{A Distribution of Repeaters (Maximum at the Middle).\label{sample1}}%
-\label{fig:sample1}
-\end{figure}
+%Figure~\ref{fig:sample1} is an example of repeater coordination.
+%\begin{figure}[ht]
+%\begin{center}
+%\scalebox{0.6}{\includegraphics{sample1}}
+%\end{center}
+%\caption[A Distribution of Repeaters for a Uniform People Distribution]{A Distribution of Repeaters (Maximum at the Middle).\label{sample1}}%
+%\label{fig:sample1}
+%\end{figure}
 
 \section{Sensitivity Analysis And Error Analysis}
-We do several cases and find the standard deviation. Also, we can try to plot a function of the minimum number of repeaters depending on the number of people. If we were to plot this graph, there would be a limit point in which no repeater coordination can serve that number of simultaneous users.
-
-Figure~\ref{sensitivity} represents the data test for sensitivity.
-\begin{figure}[ht]
-\begin{center}
-\scalebox{0.6}{\includegraphics{sensitivity}}
-\end{center}
-\caption[Sensitivity of the Model]{Sensitivity Analysis with a Change in the Number of People.\label{sensitivity}}%
-\label{fig:sensitivity}
-\end{figure}
-The reduced Chi-square value for this data set is 0.496. This is a good value, indicating that the number of repeaters is proportional to the number people, although the negative deviation this reduced Chi-square from 1.000 suggests that the line fits the data too well. The cause of this happening might be because we generate an almost completely randomized distribution of people. In the reaility, though, the distribution will be be as uniform as our model. For this particular data, the number of repeaters needed for 1,000 people is \boxed{51.7\pm 0.7 \text{ units.}}
-\section{Comments}
-Strength: accuracy of counting!
-Weakness: need not be at the node.
-
-\section{The Model Algorithm}
-<<<<<<< HEAD
-Explain it here.
-=======
-The algorithm works primarily by giving a different weight to each of the 
-opics based on who is in the conversation. 
-A conspirator is more likely to be discussing 
->>>>>>> 8014abb811481be1aae3700a703b0096d00c54f7
-
-\section{Adapted Models}
-\subsection{The population of 10,000 people}
-In this case, I think the center of the town will have a lot of problems because we don't have enough PL tones and sets of frequencies to distinquish to coming signals. Our program reports the number of repeaters needed at the center as large as 1377, corresponding to the actual required number of repeaters of 514 with help of PL tones, and so each location needs approximately 10 sets of frequencies. We only have 3. There are many ways to solve this, such as extending the range of frequency, extending the area, and increasing the number of PL tones.
-
-\subsection{Mountainous Area}
-For the area that is mountainous, the range $R$ of each repeater is decreased. Therefore, we need more chains of repeaters in order to accomplish the same task. The level of haxagons will increase. If we set it to five, here is a result when we have 1,000 people:
-
-Figure~\ref{mountainous} is an example of repeater coordination for a mountainous area.
-\begin{figure}[ht]
-\begin{center}
-\scalebox{0.6}{\includegraphics{mountainous}}
-\end{center}
-\caption[A Distribution of Repeaters for a Mountainous Area]{Distribution of Repeaters for a Mountainous Area (Maximum at the Middle).\label{mountainous}}
-\label{fig:an-eps-graphic}
-\end{figure}
-Total is 4831.0. The repeaters per 1PL tone is  is 89.46 (This value reflects the total number of repeaters needed). Per one location is 0.596. We have 3 sets of frequencies, so this case will be easy to deal with. The peak at the middle is about 158.42. The number of sets of frequencies needed is 
-$$\frac{158.42}{(\text{The number of areas})(\text{The number of PL tones})},$$
-which is 
-$$\frac{158.42}{(6\cdot 5^2)(54)}=\boxed {0.020.}$$
-This value means that we can use only one frequency even at the middle of the town.  Although this data suggests that we need to use more repeaters (as much as 90 repeaters, as opposed to 52 repeaters), we perform better in terms of avoiding frequency interference.
+Idea: change the input. Say what if we know that someone is a conspirator
+or someone has a higher chance than $0.5,$
+how much the result will change.
+\section{Strengths and Weaknesses}
 
 \section{Possible Improvements}
 \begin{enumerate}
+\item We need to come up with an indicator of how good our results are.
+Like testing hypothesis. Suppose the conspirator groups are 
+like what we have. [[[From here, it might be a good idea to go back
+and explain that it is not plausible to do exhausive search of
+$2^{83}$ possibilities.]]]
 \item Add the ability to adjust the number of people to do penalty: int(original/k), varying k.
 \item Consider the bosses (Jerome, Delores, Gretchen) more carefully.
 \item Keep the level of suspiciousness for 7, 11, 13 (or at least see how those change)
