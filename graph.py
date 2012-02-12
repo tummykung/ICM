@@ -8,8 +8,8 @@
 numNodes = 83
 numTopics = 15
 
-knownConsp = ['Jean','Alex','Elsie','Paul','Ulf','Yao','Harvey','Chris']
-knownNotConsp = ['Darlene','Tran','Ellin','Gard','Paige','Este']
+knownConsp = ['Jean','Alex','Elsie','Paul','Ulf','Yao','Harvey']
+knownNotConsp = ['Darlene','Tran','Ellin','Gard','Paige','Este','Chris']
 
 def findLast(L1,L2):
     '''Returns the index of the last element of L1 in L2
@@ -56,8 +56,8 @@ class Graph:
         self.fullList = []
         self.D = {}
         self.notConspSend = -0.25
-        self.notConspRec = -0.5
-        self.conspSend = 0.5
+        self.notConspRec = -0.50
+        self.conspSend = 0.50
         self.conspRec = 0.25
         self.certaintyNotConsp = [0]*numNodes
         self.certaintyConsp = [.5]*numNodes
@@ -69,13 +69,13 @@ class Graph:
                             .1,  #4\
                             .1,  #5\
                             .1,  #6\
-                            .9,  #7\
+                            .95,  #7\
                             .1,  #8\
                             .1,  #9\
                             .1,  #10\
-                            .9,  #11\
+                            .95,  #11\
                             .1,  #12\
-                            .9,  #13\
+                            .95,  #13\
                             .1,  #14\
                             .1]  #15
         f = open(messageFile, 'r')
@@ -147,10 +147,10 @@ class Graph:
 
     def runFirstRound(self):
         '''Returns an orderd list of people from most suspicious to least'''
-        for i in knownConsp:
-            self.weightConspirator(i)
-        for i in knownNotConsp:
-            self.weightConspirator(i)
+##        for i in knownConsp:
+##            self.weightConspirator(i)
+##        for i in knownNotConsp:
+##            self.weightConspirator(i)
             
         L = map(self.scoreReport, range(numNodes))
         L.sort(key = lambda X: X[1], reverse = True)
@@ -195,13 +195,14 @@ class Graph:
         return [node, score, self.certaintyConsp[node]]
 
 def nicePrintList(L):
-    print "{0:5}{1:13}{2:9}{3:7}".format("Rank".ljust(5),"Name".center(13),"Score".center(9),"Certainty".rjust(7)),'\n'
+    print "{0:5}{1:13}{2:9}{3:7}".format("Rank".ljust(5),"Name".center(13),"Score".center(6),"Certainty".rjust(7)),'\n'
     for i in range(len(L)):
-        print "{0:5}{1:13}{2:9.3f}{3:7.2f}".format(str(i).ljust(5),L[i][0],L[i][1],L[i][2])
+        print "{0:5}{1:13}{2:6.3f}{3:9.4f}".format(str(i).ljust(5),L[i][0],L[i][1],L[i][2])
 
 def nicePrintTopics(L):
+    print "{0:5}{1:7}".format("Topic".ljust(5),"Weight".center(7))
     for i in range(1,len(L)):
-        print "{0}{1:5.2f}".format(str(i).ljust(5),L[i])
+        print "{0}{1:5.4f}".format(str(i).ljust(5),L[i])
 def main():
     global knownConsp
     global knownNotConsp
@@ -212,10 +213,11 @@ def main():
     L = graph.runFirstRound()
     temp = 1
     topics = 0
-    for i in range(40):
+    for i in range(10):
         (L, topics) = graph.runLaterRound()
         temp = map(lambda X:(names.getName(X[0]),X[1], X[2]) , L)
     nicePrintList(temp)
+    print "--------------------------------------------------"
     nicePrintTopics(topics)
     #print map(lambda X:X[0],temp)
     print "--------------------------------------------------"
