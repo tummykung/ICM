@@ -8,7 +8,7 @@
 numNodes = 83
 numTopics = 15
 
-knownConsp = ['Jean','Alex','Elsie','Paul','Ulf','Yao','Harvey',]
+knownConsp = ['Jean','Alex','Elsie','Paul','Ulf','Yao','Harvey']
 knownNotConsp = ['Darlene','Tran','Ellin','Gard','Paige','Este','Chris']
 
 def findLast(L1,L2):
@@ -55,12 +55,12 @@ class Graph:
     def __init__(self,messageFile):
         self.fullList = []
         self.D = {}
-        self.notConspSend = -0.2
+        self.notConspSend = -0.5
         self.notConspRec = -0.3
         self.conspSend = 1
         self.conspRec = 0.5
         self.certaintyNotConsp = [0]*numNodes
-        self.certaintyConsp = [0]*numNodes
+        self.certaintyConsp = [.5]*numNodes
         self.topicCount = [0]*(numTopics+1)
         self.topicWeight = [0,  #Not in use\
                             0,  #1\
@@ -69,13 +69,13 @@ class Graph:
                             0,  #4\
                             0,  #5\
                             0,  #6\
-                            10,  #7\
+                            50,  #7\
                             0,  #8\
                             0,  #9\
                             0,  #10\
-                            10,  #11\
+                            50,  #11\
                             0,  #12\
-                            10,  #13\
+                            50,  #13\
                             0,  #14\
                             0]  #15
         f = open(messageFile, 'r')
@@ -150,24 +150,24 @@ class Graph:
         for i in knownConsp:
             self.certaintyConsp[i] = 1
 
-        for i in knownNotConsp:
-            self.certaintyNotConsp[i] = 1
             
         for i in self.fullList[:findLast(knownConsp, self.fullList)+1]:
             #Every possible conspirator
-            if (knownNotConsp.count(i) == 0 or knownConsp.count(i) == 0):
+            if (knownNotConsp.count(i) == 0 and knownConsp.count(i) == 0):
                 self.certaintyConsp[i] = (self.certaintyConsp[i]+1)/2.0
 
         for i in self.fullList[findFirst(knownNotConsp, self.fullList):]:
             #Every likely non-conspirator
-            if (knownNotConsp.count(i) == 0 or knownConsp.count(i) == 0):
-                self.certaintyNotConsp[i] = (self.certaintyNotConsp[i]+1)/2.0
+            if (knownNotConsp.count(i) == 0 and knownConsp.count(i) == 0):
+                self.certaintyConsp[i] = (self.certaintyConsp[i])/2.0
 
         for i in range(numNodes):
             self.weightConspirator(i, self.certaintyConsp[i])
-            self.weightNotConspirator(i, self.certaintyNotConsp[i])
+            self.weightNotConspirator(i, (1-self.certaintyConsp[i]))
             
         L = map(self.scoreReport, range(numNodes))
+        #for i in range(numNodes):
+         #   L[i].append(self.certaintyConsp[i])
         L.sort(key = lambda X: X[1], reverse = True)
         self.fullList = map(lambda X:X[0], L)
         return (L, self.certaintyConsp, self.certaintyNotConsp)
@@ -179,7 +179,12 @@ class Graph:
             score += self.topicWeight[topic]*(self.numRec(node, topic)+\
                                      self.numSent(node, topic)+0.0)\
                                      /self.topicCount[topic]
-        return [node, score]
+        return [node, score, self.certaintyConsp[node]]
+
+def nicePrint(L):
+    print "{0:5}{1:13}{2:9}{3:7}".format("Rank".ljust(5),"Name".center(13),"Score".center(9),"Certainty".rjust(7)),'\n'
+    for i in range(len(L)):
+        print "{0:5}{1:13}{2:9.3f}{3:7.2f}".format(str(i).ljust(5),L[i][0],L[i][1],L[i][2])
 
 def main():
     global knownConsp
@@ -189,13 +194,13 @@ def main():
     knownConsp = names.namesToNum(knownConsp)
     knownNotConsp = names.namesToNum(knownNotConsp)
     L = graph.runFirstRound()
+    temp = 1
     for i in range(40):
         (L, con, notC) = graph.runLaterRound()
-        temp = map(lambda X:(names.getName(X[0]),X[1]) , L)
-        print temp
-        print con
-        print notC
-        print "--------------------------------------------------"
+        temp = map(lambda X:(names.getName(X[0]),X[1], X[2]) , L)
+    nicePrint(temp)
+    #print map(lambda X:X[0],temp)
+    print "--------------------------------------------------"
     
 
 if __name__ == '__main__': main()
