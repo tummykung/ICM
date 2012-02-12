@@ -211,19 +211,12 @@ def main():
     knownNotConsp = names.namesToNum(knownNotConsp)
     L = graph.runFirstRound()
     temp = 1
-<<<<<<< HEAD
-    for i in range(10):
-        (L, con, notC) = graph.runLaterRound()
-        temp = map(lambda X:(names.getName(X[0]),X[1], X[2]) , L)
-        nicePrint(temp)
-=======
     topics = 0
     for i in range(40):
         (L, topics) = graph.runLaterRound()
         temp = map(lambda X:(names.getName(X[0]),X[1], X[2]) , L)
     nicePrintList(temp)
     nicePrintTopics(topics)
->>>>>>> 66db57c5a44ca0bd31edec935cf34f25e8d07b09
     #print map(lambda X:X[0],temp)
     print "--------------------------------------------------"
     
