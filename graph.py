@@ -8,8 +8,8 @@
 numNodes = 83
 numTopics = 15
 
-knownConsp = ['Jean','Alex','Elsie','Paul','Ulf','Yao','Harvey']
-knownNotConsp = ['Darlene','Tran','Ellin','Gard','Paige','Este','Chris']
+knownConsp = ['Jean','Alex','Elsie','Paul','Ulf','Yao','Harvey','Chris']
+knownNotConsp = ['Darlene','Tran','Ellin','Gard','Paige','Este']
 
 def findLast(L1,L2):
     '''Returns the index of the last element of L1 in L2
@@ -55,29 +55,29 @@ class Graph:
     def __init__(self,messageFile):
         self.fullList = []
         self.D = {}
-        self.notConspSend = -0.5
-        self.notConspRec = -0.3
-        self.conspSend = 1
-        self.conspRec = 0.5
+        self.notConspSend = -0.25
+        self.notConspRec = -0.5
+        self.conspSend = 0.5
+        self.conspRec = 0.25
         self.certaintyNotConsp = [0]*numNodes
         self.certaintyConsp = [.5]*numNodes
         self.topicCount = [0]*(numTopics+1)
-        self.topicWeight = [0,  #Not in use\
-                            0,  #1\
-                            0,  #2\
-                            0,  #3\
-                            0,  #4\
-                            0,  #5\
-                            0,  #6\
-                            50,  #7\
-                            0,  #8\
-                            0,  #9\
-                            0,  #10\
-                            50,  #11\
-                            0,  #12\
-                            50,  #13\
-                            0,  #14\
-                            0]  #15
+        self.topicWeight = [.1,  #Not in use\
+                            .1,  #1\
+                            .1,  #2\
+                            .1,  #3\
+                            .1,  #4\
+                            .1,  #5\
+                            .1,  #6\
+                            .9,  #7\
+                            .1,  #8\
+                            .1,  #9\
+                            .1,  #10\
+                            .9,  #11\
+                            .1,  #12\
+                            .9,  #13\
+                            .1,  #14\
+                            .1]  #15
         f = open(messageFile, 'r')
         for line in f.readlines():
             Nums = line.split()
@@ -96,21 +96,32 @@ class Graph:
         for i in range(numNodes):
             if self.D.has_key((node,i)):
                 for j in self.D[(node,i)]:
-                    self.topicWeight[j]+= certainty * self.conspSend
+                    effectiveCoeff = self.notConspSend+\
+                                     (self.conspSend-self.notConspSend)*certainty
+                    x = 1-self.topicWeight[j]
+                    #self.topicWeight[j]+= certainty * self.conspRec
+                    self.topicWeight[j] += min(self.topicWeight[j],x)*effectiveCoeff
+                        #self.topicWeight[j]+= certainty * self.conspSend
             if self.D.has_key((i,node)):
                 for j in self.D[(i,node)]:
-                    self.topicWeight[j]+= certainty * self.conspRec
+                    effectiveCoeff = self.notConspRec+\
+                                     (self.conspRec-self.notConspRec)*certainty
+                    x = 1-self.topicWeight[j]
+                    #self.topicWeight[j]+= certainty * self.conspRec
+                    self.topicWeight[j] += min(self.topicWeight[j],x)*effectiveCoeff
 
-    def weightNotConspirator(self, node, certainty = 1):
+    """def weightNotConspirator(self, node, certainty = 1):
         '''Changes the weights of the topics based (using a given person)
             The effect is scaled with certainty'''
         for i in range(numNodes):
             if self.D.has_key((node,i)):
                 for j in self.D[(node,i)]:
-                    self.topicWeight[j]+= certainty * self.notConspSend
+                    x = self.topicWeight[j]
+                    self.topicWeight[i] -= x*self.consSend*certainty
+                    #self.topicWeight[j]+= (1-certainty) * self.notConspSend
             if self.D.has_key((i,node)):
                 for j in self.D[(i,node)]:
-                    self.topicWeight[j]+= certainty * self.notConspRec
+                    self.topicWeight[j]+= (1-certainty) * self.notConspRec"""
 
     def numSent(self, node, topic):
         '''Returns the number of times a person sent a message pertaining
@@ -139,7 +150,7 @@ class Graph:
         for i in knownConsp:
             self.weightConspirator(i)
         for i in knownNotConsp:
-            self.weightNotConspirator(i)
+            self.weightConspirator(i)
             
         L = map(self.scoreReport, range(numNodes))
         L.sort(key = lambda X: X[1], reverse = True)
@@ -149,6 +160,8 @@ class Graph:
     def runLaterRound(self):
         for i in knownConsp:
             self.certaintyConsp[i] = 1
+        for i in knownNotConsp:
+            self.certaintyConsp[i] = 0
 
             
         for i in self.fullList[:findLast(knownConsp, self.fullList)+1]:
@@ -163,14 +176,14 @@ class Graph:
 
         for i in range(numNodes):
             self.weightConspirator(i, self.certaintyConsp[i])
-            self.weightNotConspirator(i, (1-self.certaintyConsp[i]))
+            #self.weightNotConspirator(i, self.certaintyConsp[i])
             
         L = map(self.scoreReport, range(numNodes))
         #for i in range(numNodes):
          #   L[i].append(self.certaintyConsp[i])
         L.sort(key = lambda X: X[1], reverse = True)
         self.fullList = map(lambda X:X[0], L)
-        return (L, self.certaintyConsp, self.certaintyNotConsp)
+        return (L, self.topicWeight)
         
     def scoreReport(self, node):
         '''Return [node, score]'''
@@ -181,11 +194,14 @@ class Graph:
                                      /self.topicCount[topic]
         return [node, score, self.certaintyConsp[node]]
 
-def nicePrint(L):
+def nicePrintList(L):
     print "{0:5}{1:13}{2:9}{3:7}".format("Rank".ljust(5),"Name".center(13),"Score".center(9),"Certainty".rjust(7)),'\n'
     for i in range(len(L)):
         print "{0:5}{1:13}{2:9.3f}{3:7.2f}".format(str(i).ljust(5),L[i][0],L[i][1],L[i][2])
 
+def nicePrintTopics(L):
+    for i in range(1,len(L)):
+        print "{0}{1:5.2f}".format(str(i).ljust(5),L[i])
 def main():
     global knownConsp
     global knownNotConsp
@@ -195,10 +211,12 @@ def main():
     knownNotConsp = names.namesToNum(knownNotConsp)
     L = graph.runFirstRound()
     temp = 1
+    topics = 0
     for i in range(40):
-        (L, con, notC) = graph.runLaterRound()
+        (L, topics) = graph.runLaterRound()
         temp = map(lambda X:(names.getName(X[0]),X[1], X[2]) , L)
-    nicePrint(temp)
+    nicePrintList(temp)
+    nicePrintTopics(topics)
     #print map(lambda X:X[0],temp)
     print "--------------------------------------------------"
     
