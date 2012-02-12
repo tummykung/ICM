@@ -251,8 +251,10 @@ def main():
             print "-----------------------------------------------------"
             print "Round " + str(i)
             
-        (L, topics) = graph.runLaterRound()
-        temp = map(lambda X:(names.getName(X[0]),X[1], X[2]) , L)
+        [L, topics] = graph.runLaterRound()
+        temp = map(lambda X:[names.getName(X[0]),X[1], X[2]] , L)
+        for j in range(len(temp)):
+            temp[j][2] = round(temp[j][2],2)
         if(DEBUG):
             print nicePrintList(temp)
     nicePrintList(temp)
