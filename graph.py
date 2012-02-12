@@ -8,7 +8,7 @@
 numNodes = 83
 numTopics = 15
 
-knownConsp = ['Jean','Alex','Elsie','Paul','Ulf','Yao','Harvey']
+knownConsp = ['Jean','Alex','Elsie(7)','Paul','Ulf','Yao','Harvey']
 knownNotConsp = ['Darlene','Tran','Ellin','Gard','Paige','Este','Chris']
 
 def findLast(L1,L2):
