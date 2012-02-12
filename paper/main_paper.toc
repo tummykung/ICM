@@ -1,0 +1,15 @@
+\contentsline {section}{\numberline {1}Introduction}{2}
+\contentsline {section}{\numberline {2}Givens}{3}
+\contentsline {section}{\numberline {3}Assumptions}{3}
+\contentsline {section}{\numberline {4}Model Design}{4}
+\contentsline {subsection}{\numberline {4.1}Setup}{4}
+\contentsline {subsection}{\numberline {4.2}Theorems}{6}
+\contentsline {section}{\numberline {5}Model Testing}{8}
+\contentsline {section}{\numberline {6}Sensitivity Analysis And Error Analysis}{8}
+\contentsline {section}{\numberline {7}Comments}{9}
+\contentsline {section}{\numberline {8}The Model Algorithm}{10}
+\contentsline {section}{\numberline {9}Adapted Models}{10}
+\contentsline {subsection}{\numberline {9.1}The population of 10,000 people}{10}
+\contentsline {subsection}{\numberline {9.2}Mountainous Area}{11}
+\contentsline {subsection}{\numberline {9.3}A Non-Uniform Distribution}{12}
+\contentsline {section}{\numberline {10}Conclusion}{13}

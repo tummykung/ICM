@@ -1,0 +1,513 @@
+This is pdfTeX, Version 3.1415926-1.40.10 (MiKTeX 2.8) (preloaded format=pdflatex 2010.6.28)  13 FEB 2011 06:37
+entering extended mode
+**C:/Users/tummykung/Desktop/HMC*Courses/MCM/icmmcm-sample.tex
+("C:/Users/tummykung/Desktop/HMC Courses/MCM/icmmcm-sample.tex"
+LaTeX2e <2005/12/01>
+Babel <v3.8l> and hyphenation patterns for english, dumylang, nohyphenation, ge
+rman, ngerman, german-x-2009-06-19, ngerman-x-2009-06-19, french, loaded.
+("C:\Users\tummykung\Desktop\HMC Courses\MCM\icmmcm.cls"
+Document Class: icmmcm 2005/10/11 ICM/MCM Contest Submission Class
+("C:\Program Files\MiKTeX 2.8\tex\latex\base\article.cls"
+Document Class: article 2005/09/16 v1.4f Standard LaTeX document class
+("C:\Program Files\MiKTeX 2.8\tex\latex\base\size11.clo"
+File: size11.clo 2005/09/16 v1.4f Standard LaTeX file (size option)
+)
+\c@part=\count79
+\c@section=\count80
+\c@subsection=\count81
+\c@subsubsection=\count82
+\c@paragraph=\count83
+\c@subparagraph=\count84
+\c@figure=\count85
+\c@table=\count86
+\abovecaptionskip=\skip41
+\belowcaptionskip=\skip42
+\bibindent=\dimen102
+)
+("C:\Program Files\MiKTeX 2.8\tex\latex\ams\math\amsmath.sty"
+Package: amsmath 2000/07/18 v2.13 AMS math features
+\@mathmargin=\skip43
+
+For additional information on amsmath, use the `?' option.
+("C:\Program Files\MiKTeX 2.8\tex\latex\ams\math\amstext.sty"
+Package: amstext 2000/06/29 v2.01
+
+("C:\Program Files\MiKTeX 2.8\tex\latex\ams\math\amsgen.sty"
+File: amsgen.sty 1999/11/30 v2.0
+\@emptytoks=\toks14
+\ex@=\dimen103
+))
+("C:\Program Files\MiKTeX 2.8\tex\latex\ams\math\amsbsy.sty"
+Package: amsbsy 1999/11/29 v1.2d
+\pmbraise@=\dimen104
+)
+("C:\Program Files\MiKTeX 2.8\tex\latex\ams\math\amsopn.sty"
+Package: amsopn 1999/12/14 v2.01 operator names
+)
+\inf@bad=\count87
+LaTeX Info: Redefining \frac on input line 211.
+\uproot@=\count88
+\leftroot@=\count89
+LaTeX Info: Redefining \overline on input line 307.
+\classnum@=\count90
+\DOTSCASE@=\count91
+LaTeX Info: Redefining \ldots on input line 379.
+LaTeX Info: Redefining \dots on input line 382.
+LaTeX Info: Redefining \cdots on input line 467.
+\Mathstrutbox@=\box26
+\strutbox@=\box27
+\big@size=\dimen105
+LaTeX Font Info:    Redeclaring font encoding OML on input line 567.
+LaTeX Font Info:    Redeclaring font encoding OMS on input line 568.
+\macc@depth=\count92
+\c@MaxMatrixCols=\count93
+\dotsspace@=\muskip10
+\c@parentequation=\count94
+\dspbrk@lvl=\count95
+\tag@help=\toks15
+\row@=\count96
+\column@=\count97
+\maxfields@=\count98
+\andhelp@=\toks16
+\eqnshift@=\dimen106
+\alignsep@=\dimen107
+\tagshift@=\dimen108
+\tagwidth@=\dimen109
+\totwidth@=\dimen110
+\lineht@=\dimen111
+\@envbody=\toks17
+\multlinegap=\skip44
+\multlinetaggap=\skip45
+\mathdisplay@stack=\toks18
+LaTeX Info: Redefining \[ on input line 2666.
+LaTeX Info: Redefining \] on input line 2667.
+)
+("C:\Program Files\MiKTeX 2.8\tex\latex\amsfonts\amsfonts.sty"
+Package: amsfonts 2009/06/22 v3.00 Basic AMSFonts support
+\symAMSa=\mathgroup4
+\symAMSb=\mathgroup5
+LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
+(Font)                  U/euf/m/n --> U/euf/b/n on input line 96.
+)
+("C:\Program Files\MiKTeX 2.8\tex\latex\psnfss\mathpazo.sty"
+Package: mathpazo 2005/04/12 PSNFSS-v9.2a Palatino w/ Pazo Math (D.Puga, WaS) 
+\symupright=\mathgroup6
+)
+("C:\Users\tummykung\Desktop\HMC Courses\MCM\lastpage.sty"
+Package: lastpage 1994/06/25 v0.1b LaTeX2e package for refs to last page number
+ (JPG)
+)
+("C:\Program Files\MiKTeX 2.8\tex\latex\tools\xspace.sty"
+Package: xspace 2006/05/08 v1.12 Space after command names (DPC,MH)
+)
+("C:\Program Files\MiKTeX 2.8\tex\latex\tools\verbatim.sty"
+Package: verbatim 2003/08/22 v1.5q LaTeX2e package for verbatim enhancements
+\every@verbatim=\toks19
+\verbatim@line=\toks20
+\verbatim@in@stream=\read1
+)
+("C:\Users\tummykung\Desktop\HMC Courses\MCM\booktabs.sty"
+Package: booktabs 2005/04/14 v1.61803 publication quality tables
+\heavyrulewidth=\dimen112
+\lightrulewidth=\dimen113
+\cmidrulewidth=\dimen114
+\belowrulesep=\dimen115
+\belowbottomsep=\dimen116
+\aboverulesep=\dimen117
+\abovetopsep=\dimen118
+\cmidrulesep=\dimen119
+\cmidrulekern=\dimen120
+\defaultaddspace=\dimen121
+\@cmidla=\count99
+\@cmidlb=\count100
+\@aboverulesep=\dimen122
+\@belowrulesep=\dimen123
+\@thisruleclass=\count101
+\@lastruleclass=\count102
+\@thisrulewidth=\dimen124
+)
+("C:\Program Files\MiKTeX 2.8\tex\latex\base\ifthen.sty"
+Package: ifthen 2001/05/26 v1.1c Standard LaTeX ifthen package (DPC)
+)
+("C:\Users\tummykung\Desktop\HMC Courses\MCM\fancyhdr.sty"
+\fancy@headwidth=\skip46
+\f@ncyO@elh=\skip47
+\f@ncyO@erh=\skip48
+\f@ncyO@olh=\skip49
+\f@ncyO@orh=\skip50
+\f@ncyO@elf=\skip51
+\f@ncyO@erf=\skip52
+\f@ncyO@olf=\skip53
+\f@ncyO@orf=\skip54
+)
+
+Package Fancyhdr Warning: \fancyhead's `E' option without twoside option is use
+less on input line 106.
+
+
+Package Fancyhdr Warning: \fancyhead's `E' option without twoside option is use
+less on input line 107.
+
+) ("C:\Program Files\MiKTeX 2.8\tex\latex\ltxmisc\url.sty"
+\Urlmuskip=\muskip11
+Package: url 2006/04/12  ver 3.3  Verb mode for urls, etc.
+)
+("C:\Program Files\MiKTeX 2.8\tex\latex\mflogo\mflogo.sty"
+Package: mflogo 1999/03/10 v2.0 LaTeX package for Metafont and MetaPost logos
+)
+("C:\Program Files\MiKTeX 2.8\tex\latex\graphics\graphics.sty"
+Package: graphics 2006/02/20 v1.0o Standard LaTeX Graphics (DPC,SPQR)
+
+("C:\Program Files\MiKTeX 2.8\tex\latex\graphics\trig.sty"
+Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
+)
+("C:\Program Files\MiKTeX 2.8\tex\latex\00miktex\graphics.cfg"
+File: graphics.cfg 2007/01/18 v1.5 graphics configuration of teTeX/TeXLive
+)
+Package graphics Info: Driver file: dvips.def on input line 90.
+
+("C:\Program Files\MiKTeX 2.8\tex\latex\graphics\dvips.def"
+File: dvips.def 1999/02/16 v3.0i Driver-dependant file (DPC,SPQR)
+))
+("C:\Users\tummykung\Desktop\HMC Courses\MCM\natbib.sty"
+Package: natbib 1998/07/14 6.8c (PWD)
+\bibhang=\skip55
+\bibsep=\skip56
+LaTeX Info: Redefining \cite on input line 467.
+\c@NAT@ctr=\count103
+)
+\c@Theo1=\count104
+\c@Theo2=\count105
+
+("C:\Users\tummykung\Desktop\HMC Courses\MCM\icmmcm-sample.aux")
+! I can't write on file `icmmcm-sample.aux'.
+\document ...ate \openout \@mainaux \jobname .aux 
+                                                  \immediate \write \@mainau...
+l.139 \begin{document}
+                      
+Please type another output file name: test
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 139.
+LaTeX Font Info:    ... okay on input line 139.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 139.
+LaTeX Font Info:    ... okay on input line 139.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 139.
+LaTeX Font Info:    ... okay on input line 139.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 139.
+LaTeX Font Info:    ... okay on input line 139.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 139.
+LaTeX Font Info:    ... okay on input line 139.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 139.
+LaTeX Font Info:    ... okay on input line 139.
+LaTeX Font Info:    Try loading font information for OT1+ppl on input line 139.
+
+("C:\Program Files\MiKTeX 2.8\tex\latex\psnfss\ot1ppl.fd"
+File: ot1ppl.fd 2001/06/04 font definitions for OT1/ppl.
+)
+LaTeX Font Info:    Font shape `OT1/ppl/bx/n' in size <10.95> not available
+(Font)              Font shape `OT1/ppl/b/n' tried instead on input line 144.
+LaTeX Font Info:    Try loading font information for OML+zplm on input line 146
+.
+
+("C:\Program Files\MiKTeX 2.8\tex\latex\psnfss\omlzplm.fd"
+File: omlzplm.fd 2002/09/08 Fontinst v1.914 font definitions for OML/zplm.
+)
+LaTeX Font Info:    Try loading font information for OMS+zplm on input line 146
+.
+
+("C:\Program Files\MiKTeX 2.8\tex\latex\psnfss\omszplm.fd"
+File: omszplm.fd 2002/09/08 Fontinst v1.914 font definitions for OMS/zplm.
+)
+LaTeX Font Info:    Try loading font information for OMX+zplm on input line 146
+.
+
+("C:\Program Files\MiKTeX 2.8\tex\latex\psnfss\omxzplm.fd"
+File: omxzplm.fd 2002/09/08 Fontinst v1.914 font definitions for OMX/zplm.
+)
+LaTeX Font Info:    Font shape `U/msa/m/n' will be
+(Font)              scaled to size 11.40997pt on input line 146.
+LaTeX Font Info:    Font shape `U/msa/m/n' will be
+(Font)              scaled to size 8.33606pt on input line 146.
+LaTeX Font Info:    Font shape `U/msa/m/n' will be
+(Font)              scaled to size 6.25204pt on input line 146.
+LaTeX Font Info:    Font shape `U/msb/m/n' will be
+(Font)              scaled to size 11.40997pt on input line 146.
+LaTeX Font Info:    Font shape `U/msb/m/n' will be
+(Font)              scaled to size 8.33606pt on input line 146.
+LaTeX Font Info:    Font shape `U/msb/m/n' will be
+(Font)              scaled to size 6.25204pt on input line 146.
+LaTeX Font Info:    Try loading font information for OT1+zplm on input line 146
+.
+
+("C:\Program Files\MiKTeX 2.8\tex\latex\psnfss\ot1zplm.fd"
+File: ot1zplm.fd 2002/09/08 Fontinst v1.914 font definitions for OT1/zplm.
+) [1
+
+{C:/ProgramData/MiKTeX/2.8/pdftex/config/pdftex.map}]
+LaTeX Font Info:    Font shape `U/msa/m/n' will be
+(Font)              scaled to size 18.00587pt on input line 168.
+LaTeX Font Info:    Font shape `U/msa/m/n' will be
+(Font)              scaled to size 12.50409pt on input line 168.
+LaTeX Font Info:    Font shape `U/msa/m/n' will be
+(Font)              scaled to size 10.42007pt on input line 168.
+LaTeX Font Info:    Font shape `U/msb/m/n' will be
+(Font)              scaled to size 18.00587pt on input line 168.
+LaTeX Font Info:    Font shape `U/msb/m/n' will be
+(Font)              scaled to size 12.50409pt on input line 168.
+LaTeX Font Info:    Font shape `U/msb/m/n' will be
+(Font)              scaled to size 10.42007pt on input line 168.
+LaTeX Font Info:    Font shape `U/msa/m/n' will be
+(Font)              scaled to size 9.37807pt on input line 168.
+LaTeX Font Info:    Font shape `U/msa/m/n' will be
+(Font)              scaled to size 7.29405pt on input line 168.
+LaTeX Font Info:    Font shape `U/msb/m/n' will be
+(Font)              scaled to size 9.37807pt on input line 168.
+LaTeX Font Info:    Font shape `U/msb/m/n' will be
+(Font)              scaled to size 7.29405pt on input line 168.
+LaTeX Font Info:    Font shape `OT1/ppl/bx/n' in size <14.4> not available
+(Font)              Font shape `OT1/ppl/b/n' tried instead on input line 169.
+
+("C:\Users\tummykung\Desktop\HMC Courses\MCM\icmmcm-sample.toc"
+LaTeX Font Info:    Font shape `OT1/ppl/bx/n' in size <8> not available
+(Font)              Font shape `OT1/ppl/b/n' tried instead on input line 1.
+ [1])
+\tf@toc=\write3
+
+("C:\Users\tummykung\Desktop\HMC Courses\MCM\icmmcm-sample.lof"
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[2])
+\tf@lof=\write4
+ ("C:\Users\tummykung\Desktop\HMC Courses\MCM\icmmcm-sample.lot")
+\tf@lot=\write5
+LaTeX Font Info:    Font shape `U/msa/m/n' will be
+(Font)              scaled to size 15.0049pt on input line 181.
+LaTeX Font Info:    Font shape `U/msb/m/n' will be
+(Font)              scaled to size 15.0049pt on input line 181.
+LaTeX Font Info:    Font shape `OT1/ppl/bx/n' in size <10> not available
+(Font)              Font shape `OT1/ppl/b/n' tried instead on input line 181.
+LaTeX Font Info:    Font shape `U/msa/m/n' will be
+(Font)              scaled to size 5.21004pt on input line 203.
+LaTeX Font Info:    Font shape `U/msb/m/n' will be
+(Font)              scaled to size 5.21004pt on input line 203.
+
+
+LaTeX Font Warning: Font shape `OT1/cmss/m/it' in size <10.95> not available
+(Font)              Font shape `OT1/cmss/m/sl' tried instead on input line 206.
+
+
+[3]
+LaTeX Font Info:    Font shape `OT1/ppl/bx/n' in size <12> not available
+(Font)              Font shape `OT1/ppl/b/n' tried instead on input line 210.
+ [4] [5]
+Overfull \hbox (1.88846pt too wide) in paragraph at lines 352--356
+[]\OT1/ppl/m/n/10.95 These are ``com-mands with arguments''---the com-mand it-s
+elf starts with
+ []
+
+[6]
+Overfull \hbox (23.7937pt too wide) in paragraph at lines 380--380
+ []  \OT1/cmtt/m/n/10.95 ``This is disgusting---I can't eat this.  That arugala
+ is so[] 
+ []
+
+LaTeX Font Info:    Font shape `OT1/cmtt/bx/n' in size <10.95> not available
+(Font)              Font shape `OT1/cmtt/m/n' tried instead on input line 403.
+[7] [8] [9] [10]
+
+Package amsmath Warning: Foreign command \atopwithdelims;
+(amsmath)                \frac or \genfrac should be used instead
+(amsmath)                 on input line 623.
+
+
+Overfull \hbox (11.0005pt too wide) in paragraph at lines 671--674
+\OT1/ppl/m/n/10.95 L[]T[]Xprovides an enor-mous num-ber of sym-bols. Ad-di-tion
+al pack-ages (loaded
+ []
+
+LaTeX Font Info:    Try loading font information for U+fplmbb on input line 675
+.
+("C:\Program Files\MiKTeX 2.8\tex\latex\psnfss\ufplmbb.fd"
+File: ufplmbb.fd 2003/10/30 Fontinst v1.914 font definitions for U/fplmbb.
+) [11]
+
+Package natbib Warning: Citation `gratzer-mil' on page 12 undefined on input li
+ne 732.
+
+
+Package natbib Warning: Citation `kopka-daly-guide' on page 12 undefined on inp
+ut line 732.
+
+[12]
+LaTeX Font Info:    Try loading font information for OML+ppl on input line 778.
+
+ ("C:\Program Files\MiKTeX 2.8\tex\latex\psnfss\omlppl.fd"
+File: omlppl.fd 
+)
+LaTeX Font Info:    Font shape `OML/ppl/m/it' in size <10.95> not available
+(Font)              Font shape `OML/cmm/m/it' tried instead on input line 778.
+
+
+Package natbib Warning: Citation `amsmath-doc' on page 13 undefined on input li
+ne 817.
+
+
+Package natbib Warning: Citation `gratzer-mil' on page 13 undefined on input li
+ne 817.
+
+
+Package natbib Warning: Citation `lamport' on page 13 undefined on input line 8
+17.
+
+
+Package natbib Warning: Citation `kopka-daly-guide' on page 13 undefined on inp
+ut line 818.
+
+[13] [14] [15] [16] [17] [18]
+
+Package natbib Warning: Citation `carlisle-grfguide' on page 19 undefined on in
+put line 1104.
+
+
+Overfull \hbox (16.53123pt too wide) in paragraph at lines 1107--1112
+[]\OT1/ppl/m/n/10.95 The stan-dard graphic for-mat used with T[]X is called \OT
+1/ppl/m/it/10.95 En-cap-su-lated PostScript\OT1/ppl/m/n/10.95 ,
+ []
+
+[19]
+File: shapes.eps Graphic file (type eps)
+ <shapes.eps>
+
+Package natbib Warning: Citation `kopka-daly-guide' on page 20 undefined on inp
+ut line 1192.
+
+[20
+Non-PDF special ignored!
+Non-PDF special ignored!
+Non-PDF special ignored!]
+
+Package natbib Warning: Citation `lamport' on page 21 undefined on input line 1
+215.
+
+
+Package natbib Warning: Citation `chicago' on page 21 undefined on input line 1
+237.
+
+
+Package natbib Warning: Citation `tufte-vdq' on page 21 undefined on input line
+ 1238.
+
+[21]
+LaTeX Font Info:    Font shape `U/msa/m/n' will be
+(Font)              scaled to size 7.91925pt on input line 1259.
+LaTeX Font Info:    Font shape `U/msb/m/n' will be
+(Font)              scaled to size 7.91925pt on input line 1259.
+
+Overfull \hbox (72.59682pt too wide) in paragraph at lines 1259--1285
+[][] 
+ []
+
+
+Package natbib Warning: Citation `chicago' on page 22 undefined on input line 1
+289.
+
+
+Package natbib Warning: Citation `chicago' on page 22 undefined on input line 1
+289.
+
+
+Overfull \hbox (5.54848pt too wide) in paragraph at lines 1302--1306
+[]\OT1/ppl/m/n/10.95 Typesetting a doc-u-ment is re-ferred to as ``T[]Xing'', `
+`com-pil-ing'', or ``type-
+ []
+
+[22] [23]
+LaTeX Font Info:    Try loading font information for OMS+ppl on input line 1388
+.
+ ("C:\Program Files\MiKTeX 2.8\tex\latex\psnfss\omsppl.fd"
+File: omsppl.fd 
+)
+LaTeX Font Info:    Font shape `OMS/ppl/m/n' in size <10.95> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 1388.
+
+ [24]
+[25]
+Overfull \hbox (5.1617pt too wide) in paragraph at lines 1458--1460
+[]\OT1/ppl/m/n/10.95 Paragraphs are de-lim-ited by two car-riage re-turns (with
+ or with-out white-
+ []
+
+[26]
+LaTeX Font Info:    Try loading font information for U+logo on input line 1555.
+
+ ("C:\Program Files\MiKTeX 2.8\tex\latex\mflogo\ulogo.fd"
+File: ulogo.fd 1999/03/10 v2.0 LaTeX font defs for Metafont and MetaPost logos
+) [27] [28]
+
+Package natbib Warning: Citation `amsmath-doc' on page 29 undefined on input li
+ne 1655.
+
+LaTeX Font Info:    Font shape `OT1/cmtt/bx/n' in size <12> not available
+(Font)              Font shape `OT1/cmtt/m/n' tried instead on input line 1668.
+
+[29]
+
+Package natbib Warning: Citation `gratzer-mil' on page 30 undefined on input li
+ne 1687.
+
+
+Package natbib Warning: Citation `dupre-bugs' on page 30 undefined on input lin
+e 1692.
+
+
+Package natbib Warning: Citation `bringhurst-elements' on page 30 undefined on 
+input line 1702.
+
+("C:\Users\tummykung\Desktop\HMC Courses\MCM\icmmcm-sample.bbl" [30])
+AED: lastpage setting LastPage [31]
+
+Remember, do not put the names of any team members,
+your advisor, or your institution in the document!
+
+
+Package natbib Warning: There were undefined citations.
+
+("C:\Users\tummykung\Desktop\HMC Courses\MCM\icmmcm-sample.aux") )
+(\end occurred inside a group at level 1)
+
+### simple group (level 1) entered at line 354 ({)
+### bottom level 
+Here is how much of TeX's memory you used:
+ 2174 strings out of 495285
+ 27545 string characters out of 3180382
+ 82718 words of memory out of 3000000
+ 5291 multiletter control sequences out of 15000+200000
+ 56741 words of font info for 164 fonts, out of 3000000 for 9000
+ 15 hyphenation exceptions out of 8191
+ 34i,12n,47p,346b,451s stack positions out of 5000i,500n,10000p,200000b,50000s
+{C:/Program Files/MiKTeX 2.8/fonts/enc/dvips/fontname/8r.enc}<C
+:/Program Files/MiKTeX 2.8/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Progra
+m Files/MiKTeX 2.8/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Program Files/
+MiKTeX 2.8/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Program Files/MiKTeX 2.
+8/fonts/type1/public/amsfonts/cm/cmss10.pfb><C:/Program Files/MiKTeX 2.8/fonts/
+type1/public/amsfonts/cm/cmss9.pfb><C:/Program Files/MiKTeX 2.8/fonts/type1/pub
+lic/amsfonts/cm/cmssi10.pfb><C:/Program Files/MiKTeX 2.8/fonts/type1/public/ams
+fonts/cm/cmsy10.pfb><C:/Program Files/MiKTeX 2.8/fonts/type1/public/amsfonts/cm
+/cmtt10.pfb><C:/Program Files/MiKTeX 2.8/fonts/type1/public/amsfonts/cm/cmtt12.
+pfb><C:/Program Files/MiKTeX 2.8/fonts/type1/public/mathpazo/fplmbb.pfb><C:/Pro
+gram Files/MiKTeX 2.8/fonts/type1/public/mathpazo/fplmr.pfb><C:/Program Files/M
+iKTeX 2.8/fonts/type1/public/mathpazo/fplmri.pfb><C:/Program Files/MiKTeX 2.8/f
+onts/type1/hoekwater/mflogo/logo10.pfb><C:/Program Files/MiKTeX 2.8/fonts/type1
+/public/amsfonts/symbols/msam10.pfb><C:/Program Files/MiKTeX 2.8/fonts/type1/ur
+w/palatino/uplb8a.pfb><C:/Program Files/MiKTeX 2.8/fonts/type1/urw/palatino/upl
+r8a.pfb><C:/Program Files/MiKTeX 2.8/fonts/type1/urw/palatino/uplr8a.pfb><C:/Pr
+ogram Files/MiKTeX 2.8/fonts/type1/urw/palatino/uplri8a.pfb>
+Output written on icmmcm-sample.pdf (32 pages, 281971 bytes).
+PDF statistics:
+ 178 PDF objects out of 1000 (max. 8388607)
+ 0 named destinations out of 1000 (max. 500000)
+ 1 words of extra memory for PDF output out of 10000 (max. 10000000)
+

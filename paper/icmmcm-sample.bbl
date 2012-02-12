@@ -1,0 +1,92 @@
+\begin{thebibliography}{}
+
+\bibitem[Bringhurst, 1996]{bringhurst-elements}
+Bringhurst, R. (1996).
+\newblock {\em The Elements of Typographic Style}.
+\newblock Hartley \& Marks, Vancouver, BC, second edition.
+
+\bibitem[Carlisle, 1999]{carlisle-grfguide}
+Carlisle, D.~P. (1999).
+\newblock {\em Packages in the `graphics' Bundle}.
+
+\bibitem[{COMAP}, 2009]{comap-mcm-rules}
+{COMAP} (2009).
+\newblock Contest registration and instructions.
+\newblock Website.
+\newblock Viewed on 2009 February 5.
+
+\bibitem[{Dupr\'{e}}, 1998]{dupre-bugs}
+{Dupr\'{e}}, L. (1998).
+\newblock {\em {BUGS} in Writing}.
+\newblock Addison-Wesley, Reading, MA, second edition.
+
+\bibitem[Editor, 1986]{TUG:h-l}
+Editor (1986).
+\newblock Hyphenation exception log.
+\newblock {\em TUGboat}, 7(3):145.
+
+\bibitem[Fear, 1997]{fear-booktab}
+Fear, S. (1997).
+\newblock {\em Publication Quality Tables in \LaTeX{}}.
+
+\bibitem[Goossens et~al., 1994]{goosens-latex-companion}
+Goossens, M., Mittelbach, F., and Samarin, A. (1994).
+\newblock {\em The {\LaTeX} Companion}.
+\newblock Addison-Wesley.
+
+\bibitem[{Gr\"{a}tzer}, 2000]{gratzer-mil}
+{Gr\"{a}tzer}, G. (2000).
+\newblock {\em Math into {\LaTeX}}.
+\newblock Birkh\"{a}user, Boston.
+
+\bibitem[Grossman, 1993]{chicago}
+Grossman, J., editor (1993).
+\newblock {\em The {Chicago} Manual of Style}.
+\newblock University of Chicago Press, Chicago, IL, 14th edition.
+
+\bibitem[Knuth, 1964]{transfib}
+Knuth, D.~E. (1964).
+\newblock Transcendental numbers based on the {Fibonacci} sequence.
+\newblock {\em Fibonacci Quarterly}, 2:43--44.
+
+\bibitem[Knuth, 1993]{knuth-texbook}
+Knuth, D.~E. (1993).
+\newblock {\em The \TeX{}book}.
+\newblock Addison-Wesley.
+
+\bibitem[Knuth et~al., 1989]{MathWrite}
+Knuth, D.~E., Larrabee, T., and Roberts, P.~M. (1989).
+\newblock Mathematical writing.
+\newblock {\em Mathematics Association of America Notes}, 14.
+
+\bibitem[Kopka and Daly, 1999]{kopka-daly-guide}
+Kopka, H. and Daly, P.~W. (1999).
+\newblock {\em A Guide to \LaTeX}.
+\newblock Addison-Wesley, 3rd edition.
+
+\bibitem[Krantz, 1997]{krantz-primer}
+Krantz, S.~G. (1997).
+\newblock {\em A Primer of Mathematical Writing}.
+\newblock American Mathematical Society.
+
+\bibitem[Lamport, 1994]{lamport}
+Lamport, L. (1994).
+\newblock {\em {\LaTeX}: A Document Preparation System}.
+\newblock Addison-Wesley, 2nd edition.
+
+\bibitem[Society, 1999]{amsmath-doc}
+Society, A.~M. (1999).
+\newblock {\em User's Guide for the amsmath Package}.
+\newblock American Mathematical Society.
+
+\bibitem[Tufte, 1983]{tufte-vdq}
+Tufte, E.~R. (1983).
+\newblock {\em The Visual Display of Quantitative Information}.
+\newblock Graphics Press, Cheshire, CT.
+
+\bibitem[Weisstein, 2000]{EWDM}
+Weisstein, E. (2000).
+\newblock Eric {Weisstein's} world of mathematics.
+\newblock Available online at {mathworld.wolfram.com}.
+
+\end{thebibliography}

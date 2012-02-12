@@ -1,0 +1,55 @@
+\contentsline {section}{\numberline {1}Introduction: What Is \LaTeX \xspace ?}{3}
+\contentsline {section}{\numberline {2}Structured Writing}{4}
+\contentsline {subsection}{\numberline {2.1}Document Classes}{4}
+\contentsline {subsection}{\numberline {2.2}Packages}{4}
+\contentsline {subsection}{\numberline {2.3}Structural Commands}{4}
+\contentsline {subsection}{\numberline {2.4}Labels and References}{5}
+\contentsline {subsection}{\numberline {2.5}Commands}{6}
+\contentsline {subsection}{\numberline {2.6}Environments}{6}
+\contentsline {subsubsection}{\numberline {2.6.1}The \texttt {document}\xspace Environment and the Preamble}{7}
+\contentsline {subsubsection}{\numberline {2.6.2}Math Environments}{7}
+\contentsline {paragraph}{The \texttt {equation}\xspace Environment}{8}
+\contentsline {subsection}{\numberline {2.7}Fonts}{9}
+\contentsline {subsubsection}{\numberline {2.7.1}Font Commands}{9}
+\contentsline {subsection}{\numberline {2.8}Customization}{10}
+\contentsline {section}{\numberline {3}Mathematical Notation}{10}
+\contentsline {subsection}{\numberline {3.1}Sums and Products}{11}
+\contentsline {subsection}{\numberline {3.2}Matrices}{11}
+\contentsline {subsection}{\numberline {3.3}Symbols}{11}
+\contentsline {subsection}{\numberline {3.4}More Math}{13}
+\contentsline {subsection}{\numberline {3.5}Aligning Equations}{14}
+\contentsline {subsection}{\numberline {3.6}Adjusting Spacing}{14}
+\contentsline {subsection}{\numberline {3.7}Specifying Equation Numbers or Names}{15}
+\contentsline {subsection}{\numberline {3.8}Sizing Delimiters}{16}
+\contentsline {subsection}{\numberline {3.9}Theorems}{17}
+\contentsline {subsubsection}{\numberline {3.9.1}A \texttt {Theo1}\xspace Environment}{17}
+\contentsline {subsubsection}{\numberline {3.9.2}A \texttt {Theo2}\xspace Environment}{17}
+\contentsline {subsubsection}{\numberline {3.9.3}A \texttt {Lemma}\xspace Environment}{17}
+\contentsline {subsection}{\numberline {3.10}Proofs}{17}
+\contentsline {section}{\numberline {4}Figures and Tables---\LaTeX 's Float Environments}{18}
+\contentsline {subsection}{\numberline {4.1}Captions}{18}
+\contentsline {subsubsection}{\numberline {4.1.1}Fragile Commands and Moving Arguments}{19}
+\contentsline {subsubsection}{\numberline {4.1.2}Labels}{19}
+\contentsline {subsection}{\numberline {4.2}Figures}{19}
+\contentsline {subsubsection}{\numberline {4.2.1}Including Graphics}{19}
+\contentsline {subsubsection}{\numberline {4.2.2}\LaTeX \ Diagrams}{20}
+\contentsline {subsection}{\numberline {4.3}Tables}{21}
+\contentsline {section}{\numberline {5}Typesetting}{22}
+\contentsline {subsection}{\numberline {5.1}Getting to Paper}{22}
+\contentsline {subsection}{\numberline {5.2}PDF for the Web}{23}
+\contentsline {subsection}{\numberline {5.3}General Comments}{24}
+\contentsline {subsection}{\numberline {5.4}Additional Programs}{24}
+\contentsline {section}{\numberline {6}Tips and Tricks}{24}
+\contentsline {subsection}{\numberline {6.1}Special Characters}{24}
+\contentsline {subsection}{\numberline {6.2}Comments and Spacing}{24}
+\contentsline {subsection}{\numberline {6.3}Quotes and Dashes}{26}
+\contentsline {subsection}{\numberline {6.4}Controlling Pagination}{26}
+\contentsline {subsection}{\numberline {6.5}Using Graphics with PDFT\kern -.1667em\lower .5ex\hbox {E}\kern -.125emX\spacefactor \@m \xspace }{27}
+\contentsline {subsection}{\numberline {6.6}Fonts Look Fuzzy in PostScript or PDF Files}{27}
+\contentsline {subsection}{\numberline {6.7}Debugging}{28}
+\contentsline {section}{\numberline {7}Resources}{28}
+\contentsline {subsection}{\numberline {7.1}Online Documentation}{29}
+\contentsline {subsection}{\numberline {7.2}UK-TUG FAQ}{29}
+\contentsline {subsection}{\numberline {7.3}\texttt {comp.text.tex}\xspace }{29}
+\contentsline {section}{\numberline {8}Books}{30}
+\contentsline {section}{\numberline {9}Acknowledgments}{30}
