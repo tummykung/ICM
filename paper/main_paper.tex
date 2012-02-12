@@ -169,10 +169,10 @@ To Summarize:
 
 
 Our organization, the Intergalactic Crime Modelers (ICM) is working
-for a criminal case of a bank company.  
+for a criminal case of a bank company. 
 There are indications that there is a conspiracy within the company. 
 It is believed that the conspirators want to embezzle funds from
-the company and to steal funds from credit card 
+the company and to steal funds from credit card.
 Careful logs have been kept of whom has sent messages related to each
 topic and whom received these messages.
 
@@ -181,6 +181,7 @@ to draw a discriminate line, and if possible to find
 conspiracy leaders. In addition, we also want to use semantic
 network analysis to improve the result and examine applications of
 our developed techniques in other fields such as diseased biology.
+
 
 \noindent -------------------- TODO:
 the history and context of the problem,
@@ -209,7 +210,8 @@ Paige, and Este are \textit{not} conspirators.
 \end{enumerate}
 
 \section{Assumptions}
-
+[TODO1]: Put the rationales too.
+[TODO2]: Explain how these assumptions affect our algorithms.
 \begin{enumerate}
 \item Assume that it is unlikely that conspirators communicate
 conspiratorial topics to non-conspirators.
@@ -225,7 +227,7 @@ Therefore if a know conspirator is participating a lot in a conversation topic,
 the topic is more likely to be related to the conspiracy than not. 
 \end{enumerate}
 \section{Methodology: Model Design and Model Algorithms}
-
+[TODO: JUSTIFY EACH STEP]
 The algorithm works primarily by giving a different weight to each of the 
 topics based on who is in the conversation. We will run the algorithm
 a couple of times to adjust the likelihood of being conspirators
@@ -277,6 +279,11 @@ Otherwise, we set $c_i = 0.5.$ In short, in the initial states
 0,	& \text{person $i$ is known \textit{not} to be a conspirator}\\
 0.5,	&\text{otherwise.}
 \end{cases}\]
+[[TODO (comment): Should we give the probability less than 0.5?
+We know that most of people will be not conspirators. 
+How about we guess initially that the conspirator group 
+is of the size 20, so maybe we give the initial probability
+$\frac{20}{83}  = 0.24$.]]
 
 \item To calculate $s_i,$ we use the following formula,
 which is the weighted sum of the involvement in each topic,
@@ -291,7 +298,7 @@ cons
 \begin{enumerate}
 
 \item Run the programs a couple of times to recalculate
-the score 
+the score.
 
 \item For each person $i$,
 if he or she has a 
@@ -390,7 +397,11 @@ how much the result will change.
 \begin{enumerate}
 \item We need to come up with an indicator of how good our results are.
 Like testing hypothesis. Suppose the conspirator groups are 
-like what we have. [[[From here, it might be a good idea to go back
+like what we have, what would be a $p$-value?
+
+Possibly how much information is leak from the group.
+The less information leaks, the better our model.
+ [[[From here, it might be a good idea to go back
 and explain that it is not plausible to do exhausive search of
 $2^{83}$ possibilities.]]]
 \item Add the ability to adjust the number of people to do penalty: int(original/k), varying k.
