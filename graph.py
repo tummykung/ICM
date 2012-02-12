@@ -7,8 +7,10 @@
 
 numNodes = 83
 numTopics = 15
+DEBUG = 0
+DEBUG2 = 1
 
-knownConsp = ['Jean','Alex','Elsie','Paul','Ulf','Yao','Harvey']
+knownConsp = ['Jean','Alex','Elsie(7)','Paul','Ulf','Yao','Harvey']
 knownNotConsp = ['Darlene','Tran','Ellin','Gard','Paige','Este','Chris']
 
 def findLast(L1,L2):
@@ -100,15 +102,29 @@ class Graph:
                                      (self.conspSend-self.notConspSend)*certainty
                     x = 1-self.topicWeight[j]
                     #self.topicWeight[j]+= certainty * self.conspRec
+                    if(DEBUG):
+                        print "Send: certainty = " + str(certainty)
+                        print "effectiveCoef = " + str(effectiveCoeff)
+                        print " Before: topic " + str(j)+ "'s weight = " + str(self.topicWeight[j])
+
                     self.topicWeight[j] += min(self.topicWeight[j],x)*effectiveCoeff
+                    if(DEBUG):
+                        print " After: topic " + str(j)+ "'s weight = " + str(self.topicWeight[j])
+
                         #self.topicWeight[j]+= certainty * self.conspSend
             if self.D.has_key((i,node)):
                 for j in self.D[(i,node)]:
                     effectiveCoeff = self.notConspRec+\
                                      (self.conspRec-self.notConspRec)*certainty
                     x = 1-self.topicWeight[j]
+                    if(DEBUG):
+                        print "Recieve: certainty = " + str(certainty)
+                        print "effectiveCoef = " + str(effectiveCoeff)
+                        print " Before: topic " + str(j)+ "'s weight = " + str(self.topicWeight[j])
                     #self.topicWeight[j]+= certainty * self.conspRec
                     self.topicWeight[j] += min(self.topicWeight[j],x)*effectiveCoeff
+                    if(DEBUG):
+                        print " After: topic " + str(j)+ "'s weight = " + str(self.topicWeight[j])
 
     """def weightNotConspirator(self, node, certainty = 1):
         '''Changes the weights of the topics based (using a given person)
@@ -147,10 +163,10 @@ class Graph:
 
     def runFirstRound(self):
         '''Returns an orderd list of people from most suspicious to least'''
-##        for i in knownConsp:
-##            self.weightConspirator(i)
-##        for i in knownNotConsp:
-##            self.weightConspirator(i)
+        for i in knownConsp:
+            self.weightConspirator(i)
+        for i in knownNotConsp:
+            self.weightConspirator(i,0)
             
         L = map(self.scoreReport, range(numNodes))
         L.sort(key = lambda X: X[1], reverse = True)
@@ -163,16 +179,33 @@ class Graph:
         for i in knownNotConsp:
             self.certaintyConsp[i] = 0
 
-            
+        if(DEBUG2):
+            print "last = " + str(findLast(knownConsp, self.fullList))
+            print "first = " + str(findFirst(knownNotConsp, self.fullList))
         for i in self.fullList[:findLast(knownConsp, self.fullList)+1]:
             #Every possible conspirator
             if (knownNotConsp.count(i) == 0 and knownConsp.count(i) == 0):
-                self.certaintyConsp[i] = (self.certaintyConsp[i]+1)/2.0
+                if(DEBUG):
+                    print "Before: person " + str(i)+ "'s certainty = " + str(self.certaintyConsp[i])
+
+                alpha = 0.7
+                self.certaintyConsp[i] = self.certaintyConsp[i]*(1-alpha) + 1*alpha
+                if(DEBUG):
+                    print " After: person " + str(i)+ "'s certainty = " + str(self.certaintyConsp[i])                
 
         for i in self.fullList[findFirst(knownNotConsp, self.fullList):]:
             #Every likely non-conspirator
             if (knownNotConsp.count(i) == 0 and knownConsp.count(i) == 0):
-                self.certaintyConsp[i] = (self.certaintyConsp[i])/2.0
+
+                if(DEBUG):
+                    print "Before: person " + str(i)+ "'s certainty = " + str(self.certaintyConsp[i])
+
+                alpha = 0.1
+                self.certaintyConsp[i] = self.certaintyConsp[i]*(1-alpha) + 0*alpha
+
+                if(DEBUG):
+                    print " After: person " + str(i)+ "'s certainty = " + str(self.certaintyConsp[i])
+
 
         for i in range(numNodes):
             self.weightConspirator(i, self.certaintyConsp[i])
@@ -213,9 +246,15 @@ def main():
     L = graph.runFirstRound()
     temp = 1
     topics = 0
-    for i in range(10):
+    for i in range(5):
+        if(DEBUG):
+            print "-----------------------------------------------------"
+            print "Round " + str(i)
+            
         (L, topics) = graph.runLaterRound()
         temp = map(lambda X:(names.getName(X[0]),X[1], X[2]) , L)
+        if(DEBUG):
+            print nicePrintList(temp)
     nicePrintList(temp)
     print "--------------------------------------------------"
     nicePrintTopics(topics)
