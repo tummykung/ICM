@@ -223,10 +223,9 @@ appropriate \verb|\ref| commands pointing to the correct
 \section{Given Information}
 \begin{enumerate}
 \item We are given that Jean, Alex, Elsie, Paul, Ulf, Yao,
-and Harvey are conspirators. \label{known_cons}
-\item We are given that Darlene, Tran, Jia, Ellin, Gard, Chris,
+and Harvey are conspirators. In addition, we are given that Darlene, Tran, Jia, Ellin, Gard, Chris,
 Paige, and Este are \textit{not} conspirators.
-\label{known_not_cons}
+\label{known_cons}
 \item There are 83 nodes, 400 links, and 15 considered topics.\label{number}
 \item Topics 7, 11, and 13 are known to be suspicious topics. \label{known_sus_topics}
 \end{enumerate}
@@ -239,8 +238,6 @@ Paige, and Este are \textit{not} conspirators.
 \item Assume that it is unlikely that conspirators communicate
 conspiratorial topics to non-conspirators.\label{cons_inside}
 
-\item Assume that the conspirators are discussing the suspicious topic. \label{cons_susp}
-
 \item Assume that the more that a person discusses a suspicious topic the more likely that person is to be a conspirator.
  We can weight topics discussed by conspirators more heavily than other topics. 
 \label{cons_involve}
@@ -252,7 +249,6 @@ conspiratorial topics to non-conspirators.
  those not discussed by non-conspirators.
 \label{cons_not_involve}
 
-\item Assume that the conspirators are discussing the suspicious topic.
 
 \item Assume that conspirators are more likely to be discussing topics that relate to the conspiracy than anyone else.
 Therefore if a know conspirator is participating a lot in a conversation topic,
@@ -329,18 +325,17 @@ where get these numbers by experiment.
 \item $a_{\text{Conspirator Sent}} = 0.25$
 \end{enumerate}
 
-These numbers represent the following:
-Ahh. Lazy to explain.
-
+These numbers are based on Assumptions \eqref{cons_inside}, \eqref{cons_involve}, \eqref{cons_not_involve}, 
+\eqref{cons_topic}.
 Note that we use python to model the problem.
 
 \subsection{Initializing}
 \begin{enumerate}
 \item To initialize the values, we set $c_i = 1$ for those that
 we know to be not conspirators ($i=18,21,7,54,67,49$)
-and we set $c_i = 0.25$ for those that
+and we set $c_i = 0.$ for those that
 we know \textit{not} to be conspirators ($i=48,64,65,68,74,0,2,7$).
-Otherwise, we set $c_i = 0.5.$ In short, in the initial states
+Otherwise, we set $c_i = 0.25.$ In short, in the initial states
 \[c_i=
 \begin{cases}
 1,	& \text{person $i$ is known to be a conspirator}\\
@@ -359,10 +354,10 @@ which is the weighted sum of the involvement in each topic,
 
 \item We rank each person based on the score.
 The group of people who are likely to be 
-cons
+conspirators should have high scores.
 \end{enumerate}
 
-\subsection{Recalculating}
+\subsection{Calculating and Recalculating}
 \begin{enumerate}
 
 \item Run the programs a couple of times to recalculate
@@ -372,7 +367,10 @@ the score.
 if he or she has a 
 rank higher than that of the lowest-score known conspirators less a constant,
 we adjust his or her certainty (probability) by the following scheme:
-\[c_i := (1-\alpha_{\text{up}})c_i + 1\cdot \alpha_{\text{up}},\]
+\begin{equation}
+c_i := (1-\alpha_{\text{up}})c_i + 1\cdot \alpha_{\text{up}},
+\label{push_up}
+\end{equation}
 where we set $\alpha_{\text{up}} = 0.7.$
 That is, we take the average with 1 and replace the original by the new value. 
 Because the original $c_i$ is less than 1, the net effect is that
@@ -383,7 +381,10 @@ for each person $i$,
 if he or she has a 
 rank lower than the highest-score known non-conspirators plus a constant,
 we adjust his or her certainty (probability) by the following scheme:
-\[c_i := (1 - \alpha_{\text{down}})c_i + 0\cdot \alpha_{\text{down}},\]
+\begin{equation}
+c_i := (1 - \alpha_{\text{down}})c_i + 0\cdot \alpha_{\text{down}},
+\label{push_down}
+\end{equation}
 where we set $\alpha_{\text{down}} = 0.1.$
 That is, we take the average with 0 and replace the original by the new value. 
 Because the original $c_i$ is greater than 0, the net effect is that
@@ -397,22 +398,16 @@ respectively.
 
 It is more difficult to move a topic that is know to be suspicious to not-suspicious than it is to move a topic that is neither suspicious nor not suspicious  to either extreme.  
 \end{enumerate}
-\section{Theorems}
-\begin{Theo1}
-The algorithm converges.
-\end{Theo1}
-{\bf Proof.}
-The idea might be because we take the average with 1 the 
+\subsection{Remark}
+The iteration in the algorithm makes the priority list 
+\textit{converge}, which means after some specific
+number of runs, the run based the certainty from the obtained list gives out the same list.
+The idea might of why this is true is because we push to 1 the 
 probability of people who have
-ranks higher than that of the lowest-score known conspirators less a constant, and we
-take the average with 0 the 
-probability of people who have ranks lower than the highest-score known non-conspirators plus a constant.
-The list of the people in those two groups should not overlap,
-so we will not take the average with 0 and 1 alternatively.
-By using the sum of constants or some multiplication factor
-those two lists should keep expanding until they meet.
-Everyone should be absorbed by exactly one group. 
-\hfill $\Box$
+ranks higher than that of the lowest-score known conspirators
+by Equation~\eqref{push_up}, and we push to 0 the 
+probability of people who have ranks lower than the highest-score known non-conspirators by Equation~\eqref{push_down}.
+So everyone should be absorbed by exactly one group. 
 
 %%=================NEW SECTION
 \section{Model Testing}
@@ -563,18 +558,19 @@ Topic Weight
 %\end{figure}
 
 \section{Sensitivity Analysis And Error Analysis}
-Idea: change the input. Say what if we know that someone is a conspirator
-or someone has a higher chance than $0.5,$
-how much the result will change.
+The main idea in this section is to measure the extent to which change the input causes change in the outcome of the model. 
+For example, if we know that someone is a conspirator
+or someone has a chance of being a conspirator 
+higher than $0.25,$
+we want to determine how much the result will change.
 
 \subsection{What if Chris was a known conspirator and topic 1 was suspicious?}
 
-Suppose the following fact comes into light:
+Suppose the following facts come into light:
 \begin{enumerate}
-\item [1b] Chris is a also conspirator.
-\item [3b] Topic 1 is also suspicious.
+\item[1b.] Chris is a also conspirator.
+\item[3b.] Topic 1 is also suspicious.
 \end{enumerate}
-The list of known conspirators gets bigger 2 times it was.
 
 \textbf{Original data:}
 There are 19 people in the list of conspirators.
@@ -588,8 +584,23 @@ Patricia, Dolores, Paul, Frankin, Hazel, Julia, Ulf, Harvey,
 Neal(17), Douglas, Kristine, Neal(31), Jean.
 \end{verbatim}
 
-\textbf{With Facts~1b:}
-\section{Strengths and Weaknesses}
+\textbf{With Facts~1b and 3b:}
+The resulting list of conspirators has more conspirators than what it had.
+\section{Strengths and Weaknesses of the Model}
+\subsection{Strengths}
+\begin{enumerate}
+\item Our model is simple and comprehensive.
+It is fast up and it uses heuristic approach
+to refine the results.
+\end{enumerate}
+\subsection{Weaknesses}
+\begin{enumerate}
+\item Many parameters and constants are obtained
+by experiment. Some changes in these parameters
+have effects on the final resulting list
+of conspirators, although it does not change
+radically.
+\end{enumerate}
 
 \section{Possible Improvements}
 \begin{enumerate}
@@ -612,15 +623,23 @@ $2^{83}$ possibilities.]]]
 \end{enumerate}
 	
 \section{Observations}
-If Elsie(37) is run as a known conspirator then Elsie(7) is still marked as one of the highest priority people and Elsie(37) has one of the lowest in the conspiracy.  This leads us to believe that the Elsie in the conspiracy is Elsie(7).
-  	
-Varying the typo between 1,8,10,111,12,13,14,15 has very little effect on the final output.  A couple of names are occasionally switched, but it does not unmark someone who is suspicious or add in someone who is suspicious.
+\begin{enumerate}
+\item Issues about the same name.
+
+\item If Elsie(37) is run as a known conspirator then Elsie(7) is still marked as one of the highest priority people and Elsie(37) has one of the lowest in the conspiracy.  This leads us to believe that the Elsie in the conspiracy is Elsie(7).
+	
+\item Varying the typo between 1, 8, 10, 11, 12, 13, 14, 15 has very little effect on the final output.  A couple of names are occasionally switched, but it does not unmark someone who is suspicious or add in someone who is suspicious.
+\end{enumerate}
 
 \section{Generalization}
 We will try to apply our methodology
 to solving other important cases around the world.
-Here are problems 
-
+Here are some examples:
+\begin{enumerate}
+\item Diseased biology.
+\item Molecular pathways.
+\end{enumerate}
+%TODO: Explain in more detail + describe the common features
 
 \section{Conclusion}
 
