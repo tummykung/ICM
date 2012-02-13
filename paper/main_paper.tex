@@ -223,36 +223,39 @@ appropriate \verb|\ref| commands pointing to the correct
 \section{Given Information}
 \begin{enumerate}
 \item We are given that Jean, Alex, Elsie, Paul, Ulf, Yao,
-and Harvey are conspirators.
+and Harvey are conspirators. \label{known_cons}
 \item We are given that Darlene, Tran, Jia, Ellin, Gard, Chris,
 Paige, and Este are \textit{not} conspirators.
-\item There are 83 nodes, 400 links, and 15 considered topics.
-\item Topics 7, 11, and 13 are known to be suspicious topics.
+\label{known_not_cons}
+\item There are 83 nodes, 400 links, and 15 considered topics.\label{number}
+\item Topics 7, 11, and 13 are known to be suspicious topics. \label{known_sus_topics}
 \end{enumerate}
 
 \section{Assumptions}
-[TODO1]: Put the rationales too.
-[TODO2]: Explain how these assumptions affect our algorithms.
+%TODO1: Put the rationales too.
+%TODO2: Explain how these assumptions affect our algorithms.
 \begin{enumerate}
 \item Assume that it is unlikely that conspirators communicate
-conspiratorial topics to non-conspirators.
+conspiratorial topics to non-conspirators.\label{cons_inside}
 
-\item Assume that the conspirators are discussing the suspicious topic.
+\item Assume that the conspirators are discussing the suspicious topic. \label{cons_susp}
 
-\item Assume that the more that a person discusses a suspicious topic the more likely that person is to be a conspirator.  
+\item Assume that the more that a person discusses a suspicious topic the more likely that person is to be a conspirator.
+\label{cons_involve}
 %\item Assume that the more involved a person is in a topic, the m
-\item Assume that non-conspirators are not likely to be participating in discussions of 
+\item Assume that non-conspirators are not likely to be participating in discussions of conspiratorial topics.
+\label{cons_not_involve}
 
 \item Assume that conspirators are more likely to be discussing topics that relate to the conspiracy than anyone else.
 Therefore if a know conspirator is participating a lot in a conversation topic,
-the topic is more likely to be related to the conspiracy than not. 
+the topic is more likely to be related to the conspiracy than not. \label{cons_topic}
 
-\item For the erroneous data in line 215 in $\mathtt{Messages.xls}$, 
+\item For the erroneous data (topic 18) in line 215 in $\mathtt{Messages.xls}$, 
 we make an assumption that this number is either 1, 8, 10, 11, 12, 13, 14, or 15
 based on possible typos.
 \end{enumerate}
 \section{Methodology: Model Design and Model Algorithms}
-[TODO: JUSTIFY EACH STEP]
+%TODO: JUSTIFY EACH STEP
 The algorithm works primarily by giving a different weight to each of the 
 topics based on who is in the conversation. We will run the algorithm
 a couple of times to adjust the likelihood of being conspirators
@@ -285,17 +288,41 @@ a discriminate line.
 \item For each topic $j$ where $j=1,2,\ldots,15,$
 we give a weight $w_j$ where $0\leq w_j\leq 1.$
 The more weight of the topic has, the more suspicious it is.
+The initial weighs are $w_7 = w_{11} = w_{13} = 0.95$ based
+on the  given information~\eqref{known_sus_topics}.
+For other $i$, we let $w_i = 0.1,$ as an initial 
+experimental value. We will see later that even
+we start with $w_i = 0.1,$ many topics such as 
+topic 3 will get more and more weights so that
+it converges to 1.0.
 
 \item Let $n_{\text{sent}}(i,j)$ be the total 
 number of messages $j$ that is sent by person $i$.
 Similarly, define $n_{\text{received}}(i,j)$ be the total 
 number of messages $j$ that is received by person $i$
+Let $n_{\text{topic}}(j)$ be the total number of message $j$
+that is either being sent or received (by anyone).
 
 \item  We assign the involvement of person $i$ to the topic $j$ the number
 $\alpha_{i,j}.$ This number can be calculated as follows:
 \[\alpha_{i,j} = \frac{n_{\text{sent}}(i,j) + n_{\text{received}}(i,j)}
-{\#total of topics j}\]
+{n_{\text{topic}}(j)},\]
+which is the ratio of activities of messages $j$ associated
+with person $i$ over the overall activities of messages $j$
+(activity is measured directly by the total number).
 \end{enumerate}
+
+We define the following constants,
+where get these numbers by experiment.
+\begin{enumerate}
+\item $a_{\text{Not Conspirator Sent}} = -0.25$
+\item $a_{\text{Not Conspirator Received}} = -0.50$
+\item $a_{\text{Conspirator Sent}} = 0.50$
+\item $a_{\text{Conspirator Sent}} = 0.25$
+\end{enumerate}
+
+These numbers represent the following:
+Ahh. Lazy to explain.
 
 Note that we use python to model the problem.
 
@@ -303,20 +330,20 @@ Note that we use python to model the problem.
 \begin{enumerate}
 \item To initialize the values, we set $c_i = 1$ for those that
 we know to be not conspirators ($i=18,21,7,54,67,49$)
-and we set $c_i = 0$ for those that
+and we set $c_i = 0.25$ for those that
 we know \textit{not} to be conspirators ($i=48,64,65,68,74,0,2,7$).
 Otherwise, we set $c_i = 0.5.$ In short, in the initial states
 \[c_i=
 \begin{cases}
-0.95,	& \text{person $i$ is known to be a conspirator}\\
+1,	& \text{person $i$ is known to be a conspirator}\\
 0,	& \text{person $i$ is known \textit{not} to be a conspirator}\\
-0.5,	&\text{otherwise.}
+0.25,	&\text{otherwise.}
 \end{cases}\]
-[[TODO (comment): Should we give the probability less than 0.5?
+
 We know that most of people will be not conspirators. 
-How about we guess initially that the conspirator group 
-is of the size 20, so maybe we give the initial probability
-$\frac{20}{83}  = 0.24$.]]
+We guess initially that the conspirator group 
+is of the size 20, so we give the initial probability
+$\frac{20}{83} \approx 0.25.$
 
 \item To calculate $s_i,$ we use the following formula,
 which is the weighted sum of the involvement in each topic,
@@ -337,7 +364,8 @@ the score.
 if he or she has a 
 rank higher than that of the lowest-score known conspirators less a constant,
 we adjust his or her certainty (probability) by the following scheme:
-\[c_i := \frac{1 + c_i}{2}.\]
+\[c_i := (1-\alpha_{\text{up}})c_i + 1\cdot \alpha_{\text{up}},\]
+where we set $\alpha_{\text{up}} = 0.7.$
 That is, we take the average with 1 and replace the original by the new value. 
 Because the original $c_i$ is less than 1, the net effect is that
 $c_i$ will be increased so that it is closer to 1 by half-distance.
@@ -347,12 +375,19 @@ for each person $i$,
 if he or she has a 
 rank lower than the highest-score known non-conspirators plus a constant,
 we adjust his or her certainty (probability) by the following scheme:
-\[c_i := \frac{c_i}{2}.\]
+\[c_i := (1 - \alpha_{\text{down}})c_i + 0\cdot \alpha_{\text{down}},\]
+where we set $\alpha_{\text{down}} = 0.1.$
 That is, we take the average with 0 and replace the original by the new value. 
 Because the original $c_i$ is greater than 0, the net effect is that
 $c_i$ will be decreased so that it is closer to 0 by half-distance.
 
-\item The weights of the topics are then modified using the known certainties.  For each conversation, the weight is increased if the sender or receiver is most likely a conspirator and decreased if the sender or receiver is most likely not a conspirator. \[w_j := w_j + \min(w_j,1-w_j) \cdot (c_i(a_{\text{Not Cosp.}}-a_{\text{Consp.}})+a_{\text{Not Consp.}})\] It is more difficult to move a topic that is know to be suspicious to not-suspicious than it is to move a topic that is neither suspicious nor not suspicious  to either extreme.  
+\item The weights of the topics are then modified using the known certainties.  For each conversation, the weight is increased if the sender or receiver is most likely a conspirator and decreased if the sender or receiver is most likely not a conspirator. \[w_j := w_j + \min(w_j,1-w_j) \cdot (c_i(a_{\text{Not Cospsirator}}-a_{\text{Conspirator}})+a_{\text{Not Conspiraotr}}),\] 
+where we choose whether we use $a_{\text{Not Cospsirator Sent}}$
+or $a_{\text{Not Cospsirator Received}}$ based on whether
+the topic $j$ is being sent or received by the person,
+respectively.
+
+It is more difficult to move a topic that is know to be suspicious to not-suspicious than it is to move a topic that is neither suspicious nor not suspicious  to either extreme.  
 \end{enumerate}
 \section{Theorems}
 \begin{Theo1}
@@ -526,7 +561,11 @@ how much the result will change.
 
 \subsection{What if Chris was a known conspirator and topic 1 was suspicious?}
 
-
+Suppose the following fact comes into light:
+\begin{enumerate}
+\item [1b] Chris is a also conspirator.
+\item [3b] Topic 1 is also suspicious.
+\end{enumerate}
 The list of known conspirators gets bigger 2 times it was.
 
 \textbf{Original data:}
@@ -541,7 +580,7 @@ Patricia, Dolores, Paul, Frankin, Hazel, Julia, Ulf, Harvey,
 Neal(17), Douglas, Kristine, Neal(31), Jean.
 \end{verbatim}
 
-
+\textbf{With Facts~1b:}
 \section{Strengths and Weaknesses}
 
 \section{Possible Improvements}
