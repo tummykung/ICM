@@ -91,6 +91,622 @@
 %%% Summary
 
 \begin{summary}
+After investigating a conspiracy within a company to embezzle funds and steal costumer credit card numbers, we have developed a model of the conspiracy.  The model revolves around tracking message topics among known conspirators, know non-conspirators and other members of the company.  A few of the topics were flagged as suspicious.
+
+We weighted topics according to how much each person contributed to the topic and how likely each person is to be a conspirator.  Using these weights we assigned a score to each person, indicating how likely he/she is to be a conspirator. 
+\\\\
+  
+
+To Summarize:
+\begin{description}
+\item[Restatement Clarification of the Problem]
+---
+
+\item[Assumptions with Rationale/Justification]---emphasize those
+  assumptions that bear on the problem. List clearly all variables
+  used in your model.
+
+\item[Model Design and justification for type model used/developed.]
+
+\item[Model Testing and Sensitivity Analysis, including error
+  analysis, etc.]
+
+\item[Discuss strengths and weakness to your model or approach.]
+
+\item[Provide algorithms] in words, figures, or flow charts (as a step
+  by step algorithmic approach) for all computer codes developed.
+\end{description}
+ \citep{comap-mcm-rules}
+
+
+\end{summary}
+ 
+%%% End Summary
+%%% ---------------
+
+%%% ---------------
+%%% Print Title Block, Contents, et al.
+
+\maketitle
+\tableofcontents
+
+%%% Uncomment the following lines by deleting the % sign
+%%% if you have figures or tables in your report:
+\listoffigures
+\listoftables  
+ 
+%%% End Print Title Block, Contents, et al.
+%%% ---------------
+
+\section{Introduction}%
+\label{sec:introduction}
+
+
+Our organization, the Intergalactic Crime Modelers (ICM) is working
+for a criminal case of a bank company. 
+There are indications that there is a conspiracy within the company. 
+It is believed that the conspirators want to embezzle funds from
+the company and to steal funds from credit card.
+Careful logs have been kept of whom has sent messages related to each
+topic and whom received these messages.
+
+The goal to approach this problem is to determine a priority list, 
+to draw a discriminate line, and if possible to find
+conspiracy leaders. In addition, we also want to use semantic
+network analysis to improve the result and examine applications of
+our developed techniques in other fields such as diseased biology.
+
+
+We found an error in data in the input line 215 in the Excel:
+
+\begin{center}	  	
+\begin{tabular}{|c|c|c|c|c|c|}	  	
+\hline	  	
+Line    & Start  & End  & Text   & Text       & Text \\	  	
+(in Excel)&  node & node & topic 1 &  topic 2 & topic 3 \\	  	
+\hline  	
+215 &  14 & 25 &  1  &   6      &      "18"  \\  	
+\hline  	
+\end{tabular}  	
+\end{center}
+
+The text topic 3 is 18, which is out of range.
+See the assumption section for how we resolve this issue.
+
+\noindent -------------------- TODO:
+the history and context of the problem,
+and your work and results.  Your introduction should be more detailed
+and technical than your summary.  You may also want to include an
+outline of your report, along the lines of
+\begin{quotation}
+  In Section~1 we give our definitions and notation. Section~2
+  describes our numerical experiments\ldots{}..
+  
+  We prove our main result, Theorem~6, in Section~5\ldots{}.
+\end{quotation}
+Of course you would replace the numbers in that example with
+appropriate \verb|\ref| commands pointing to the correct
+\verb|\label|s in your source.\\
+-----------------------
+
+\section{Given Information}
+\begin{enumerate}
+\item We are given that Jean, Alex, Elsie, Paul, Ulf, Yao,
+and Harvey are conspirators. \label{known_cons}
+\item We are given that Darlene, Tran, Jia, Ellin, Gard, Chris,
+Paige, and Este are \textit{not} conspirators.
+\label{known_not_cons}
+\item There are 83 nodes, 400 links, and 15 considered topics.\label{number}
+\item Topics 7, 11, and 13 are known to be suspicious topics. \label{known_sus_topics}
+\end{enumerate}
+
+\section{Assumptions}
+%TODO1: Put the rationales too.
+%TODO2: Explain how these assumptions affect our algorithms.
+\begin{enumerate}
+
+\item Assume that it is unlikely that conspirators communicate
+conspiratorial topics to non-conspirators.\label{cons_inside}
+
+
+
+\item Assume that the more that a person discusses a suspicious topic the more likely that person is to be a conspirator.
+ We can weight topics discussed by conspirators more heavily than other topics. 
+\label{cons_involve}
+
+\item 
+Assume that non-conspirators are not likely to be participating in discussions of
+conspiratorial topics to non-conspirators. 
+ We can weight topics that are sent to known non-conspirators less heavily than
+ those not discussed by non-conspirators.
+\label{cons_not_involve}
+
+
+\item Assume that conspirators are more likely to be discussing topics that relate to the conspiracy than anyone else.
+Therefore if a know conspirator is participating a lot in a conversation topic,
+the topic is more likely to be related to the conspiracy than not. \label{cons_topic}
+
+\item For the erroneous data (topic 18) in line 215 in $\mathtt{Messages.xls}$, 
+we make an assumption that this number is either 1, 8, 10, 11, 12, 13, 14, or 15
+based on possible typos.
+\end{enumerate}
+\section{Methodology: Model Design and Model Algorithms}
+%TODO: JUSTIFY EACH STEP
+The algorithm works primarily by giving a different weight to each of the 
+topics based on who is in the conversation. We will run the algorithm
+a couple of times to adjust the likelihood of being conspirators
+based on the new information gained from the most 
+recent round of analysis.
+
+\subsection{Setting Up}
+In this model, we define the following parameters:
+\begin{enumerate}
+\item  For each person $i$ where $i=0,1,2,\ldots, 82$, 
+we define $c_i$ to be the certainty (which is probability)
+that each person is a conspirator,
+where $0\leq c_i \leq 1.$ 
+If $c_i=1$, for example, it means that the person
+number $i$ has $100\%$ chance to be
+a conspirator, according to our model. 
+
+\item  For each person $i$ where $i=0,1,2,\ldots, 82$, in each round of running,
+we give that person a score $s_i$. High score indicates
+the likelihood of that person being a conspirator, 
+based on the set
+of probability of people being conspirators from each round.
+The difference in the score $s_i$ and the probability $c_i$ of
+being a conspirator is that the score $s_i$ is calculated in each round
+and will affect the probability $c_i$ in the end of each round
+based on the ranking of the score, whereas $c_i$ is the long-run
+probability that will eventually indicate a priority list and
+a discriminate line.
+
+\item For each topic $j$ where $j=1,2,\ldots,15,$
+we give a weight $w_j$ where $0\leq w_j\leq 1.$
+The more weight of the topic has, the more suspicious it is.
+The initial weighs are $w_7 = w_{11} = w_{13} = 0.95$ based
+on the  given information~\eqref{known_sus_topics}.
+For other $i$, we let $w_i = 0.1,$ as an initial 
+experimental value. We will see later that even
+we start with $w_i = 0.1,$ many topics such as 
+topic 3 will get more and more weights so that
+it converges to 1.0.
+
+\item Let $n_{\text{sent}}(i,j)$ be the total 
+number of messages $j$ that is sent by person $i$.
+Similarly, define $n_{\text{received}}(i,j)$ be the total 
+number of messages $j$ that is received by person $i$
+Let $n_{\text{topic}}(j)$ be the total number of message $j$
+that is either being sent or received (by anyone).
+
+\item  We assign the involvement of person $i$ to the topic $j$ the number
+$\alpha_{i,j}.$ This number can be calculated as follows:
+\[\alpha_{i,j} = \frac{n_{\text{sent}}(i,j) + n_{\text{received}}(i,j)}
+{n_{\text{topic}}(j)},\]
+which is the ratio of activities of messages $j$ associated
+with person $i$ over the overall activities of messages $j$
+(activity is measured directly by the total number).
+\end{enumerate}
+
+We define the following constants,
+where get these numbers by experiment.
+\begin{enumerate}
+\item $a_{\text{Not Conspirator Sent}} = -0.25$
+\item $a_{\text{Not Conspirator Received}} = -0.50$
+\item $a_{\text{Conspirator Sent}} = 0.50$
+\item $a_{\text{Conspirator Sent}} = 0.25$
+\end{enumerate}
+
+These numbers represent the following:
+Ahh. Lazy to explain.
+
+Note that we use python to model the problem.
+
+\subsection{Initializing}
+\begin{enumerate}
+\item To initialize the values, we set $c_i = 1$ for those that
+we know to be not conspirators ($i=18,21,7,54,67,49$)
+and we set $c_i = 0.25$ for those that
+we know \textit{not} to be conspirators ($i=48,64,65,68,74,0,2,7$).
+Otherwise, we set $c_i = 0.5.$ In short, in the initial states
+\[c_i=
+\begin{cases}
+1,	& \text{person $i$ is known to be a conspirator}\\
+0,	& \text{person $i$ is known \textit{not} to be a conspirator}\\
+0.25,	&\text{otherwise.}
+\end{cases}\]
+
+We know that most of people will be not conspirators. 
+We guess initially that the conspirator group 
+is of the size 20, so we give the initial probability
+$\frac{20}{83} \approx 0.25.$
+
+\item To calculate $s_i,$ we use the following formula,
+which is the weighted sum of the involvement in each topic,
+\[s_i = \sum_{j=1}^{15} \alpha_{i,j} w_j.\]
+
+\item We rank each person based on the score.
+The group of people who are likely to be 
+cons
+\end{enumerate}
+
+\subsection{Recalculating}
+\begin{enumerate}
+
+\item Run the programs a couple of times to recalculate
+the score.
+
+\item For each person $i$,
+if he or she has a 
+rank higher than that of the lowest-score known conspirators less a constant,
+we adjust his or her certainty (probability) by the following scheme:
+\[c_i := (1-\alpha_{\text{up}})c_i + 1\cdot \alpha_{\text{up}},\]
+where we set $\alpha_{\text{up}} = 0.7.$
+That is, we take the average with 1 and replace the original by the new value. 
+Because the original $c_i$ is less than 1, the net effect is that
+$c_i$ will be increased so that it is closer to 1 by half-distance.
+
+\item Similarly,
+for each person $i$,
+if he or she has a 
+rank lower than the highest-score known non-conspirators plus a constant,
+we adjust his or her certainty (probability) by the following scheme:
+\[c_i := (1 - \alpha_{\text{down}})c_i + 0\cdot \alpha_{\text{down}},\]
+where we set $\alpha_{\text{down}} = 0.1.$
+That is, we take the average with 0 and replace the original by the new value. 
+Because the original $c_i$ is greater than 0, the net effect is that
+$c_i$ will be decreased so that it is closer to 0 by half-distance.
+
+\item The weights of the topics are then modified using the known certainties.  For each conversation, the weight is increased if the sender or receiver is most likely a conspirator and decreased if the sender or receiver is most likely not a conspirator. \[w_j := w_j + \min(w_j,1-w_j) \cdot (c_i(a_{\text{Not Cospsirator}}-a_{\text{Conspirator}})+a_{\text{Not Conspiraotr}}),\] 
+where we choose whether we use $a_{\text{Not Cospsirator Sent}}$
+or $a_{\text{Not Cospsirator Received}}$ based on whether
+the topic $j$ is being sent or received by the person,
+respectively.
+
+A minimum is used to reduce the amount that a single person can affect the weight of a topic. The minimum makes it is more difficult to move a topic that is know to be suspicious to not-suspicious than it is to move a topic that is neither suspicious nor not suspicious  to either extreme.  
+\end{enumerate}
+\section{Theorems}
+\begin{Theo1}
+The algorithm converges.
+\end{Theo1}
+{\bf Proof.}
+The idea might be because we take the average with 1 the 
+probability of people who have
+ranks higher than that of the lowest-score known conspirators less a constant, and we
+take the average with 0 the 
+probability of people who have ranks lower than the highest-score known non-conspirators plus a constant.
+The list of the people in those two groups should not overlap,
+so we will not take the average with 0 and 1 alternatively.
+By using the sum of constants or some multiplication factor
+those two lists should keep expanding until they meet.
+Everyone should be absorbed by exactly one group. 
+\hfill $\Box$
+
+%%=================NEW SECTION
+\section{Model Testing}
+
+Here is the result:
+
+\begin{verbatim}
+Rank      Name    Score    Certainty 
+
+0    Gretchen(32)  0.671   0.9988
+1    Yao           0.617   1.0000
+2    Alex          0.592   1.0000
+3    Elsie(7)      0.578   1.0000
+4    Sherri        0.477   0.9988
+5    Gretchen(4)   0.468   0.9981
+6    Patricia      0.465   0.9988
+7    Paul          0.445   1.0000
+8    Franklin      0.442   0.9955
+9    Dolores       0.398   0.9981
+10   Hazel         0.388   0.9955
+11   Jean          0.371   1.0000
+12   Paige         0.332   0.0000
+13   Neal(17)      0.325   0.8625
+14   Julia         0.312   0.8608
+15   Harvey        0.311   1.0000
+16   Darlene       0.300   0.0000
+17   Ulf           0.295   1.0000
+18   Jerome(34)    0.285   0.5019
+19   Neal(31)      0.283   0.2952
+20   Douglas       0.272   0.2952
+21   Kristine      0.269   0.2952
+22   Donald        0.266   0.2952
+23   Lois          0.255   0.2952
+24   Marcia        0.250   0.2952
+25   Marion        0.243   0.2952
+26   Eric          0.242   0.2952
+27   Francis       0.238   0.2952
+28   Jerome(16)    0.237   0.2952
+29   Christina     0.236   0.2952
+30   Patrick       0.234   0.2952
+31   Beth(38)      0.232   0.2952
+32   Dwight        0.231   0.2952
+33   Kristina      0.218   0.2952
+34   Elsie(37)     0.218   0.2952
+35   Reni          0.196   0.2952
+36   Wayne         0.194   0.2952
+37   Stephanie     0.186   0.2952
+38   Chris         0.184   0.0000
+39   Sandy         0.178   0.2952
+40   Beth(14)      0.177   0.2952
+41   Crystal       0.165   0.2952
+42   Shelley       0.159   0.2952
+43   Karen         0.159   0.2952
+44   William       0.159   0.2952
+45   Priscilla     0.158   0.2952
+46   Katherine     0.154   0.2952
+47   Erica         0.143   0.2952
+48   Louis         0.142   0.2952
+49   Seeni         0.138   0.2952
+50   Han           0.114   0.2952
+51   Bariol        0.108   0.2952
+52   Marian        0.107   0.2952
+53   Gerry         0.088   0.2952
+54   Malcolm       0.084   0.2952
+55   Fanti         0.084   0.2952
+56   Jia           0.081   0.2952
+57   Cory          0.080   0.2952
+58   Cole          0.080   0.2952
+59   Este          0.073   0.0000
+60   Vind          0.072   0.2952
+61   Kim           0.063   0.2952
+62   Wesley        0.062   0.2952
+63   Andra         0.061   0.2952
+64   Lars          0.053   0.2952
+65   Claire        0.052   0.2952
+66   Ellin         0.048   0.0000
+67   Cha           0.034   0.2952
+68   Sheng         0.034   0.2952
+69   Chara         0.032   0.2952
+70   Phille        0.029   0.2952
+71   Dayi          0.025   0.2952
+72   Olina         0.024   0.2952
+73   Hark          0.024   0.2952
+74   Melia         0.000   0.2952
+75   Gard          0.000   0.0000
+76   Carina        0.000   0.2952
+77   Quan          0.000   0.2952
+78   Tran          0.000   0.0000
+79   Mai           0.000   0.2952
+80   Lao           0.000   0.2952
+81   Darol         0.000   0.2952
+82   Le            0.000   0.2952
+--------------------------------------------------
+Topic Weight
+1    0.0000
+2    0.0000
+3    1.0000
+4    1.0000
+5    0.0000
+6    1.0000
+7    1.0000
+8    0.0001
+9    1.0000
+10   0.0000
+11   1.0000
+12   0.0000
+13   1.0000
+14   1.0000
+15   0.0001
+--------------------------------------------------
+\end{verbatim}
+
+%Take a look at an example below, where we put the city into our hexagonal coordinate (Both X and Y range from -3 to 3):
+%\begin{table}[htbp]
+%  \begin{center}
+%    \begin{tabular}{@{}c|rrrrrrr@{}} \toprule
+%X and Y  	&-3 	&-2 		&-1		&0		&1		&2		&3\\ \midrule   
+%3&15.53	&34.87	&36.03	&32.00	&0.00	&0.00	&0.00    \\ 
+%2&36.73	&76.12	&104.57	&81.22	&43.00	&0.00	&0.00	\\
+%1&37.13	&94.27	&137.75	&138.05	&91.57	&54.00	&0.00	\\
+%0&31.0	&82.1	&134.47	&\textbf{158.42}	&140.13	&83.07	&35.00	\\
+%-1&0.00	&51.0	&113.25	&137.35	&145.05	&111.92	&39.12	\\
+%-2&0.00	&0.00	&49.00	&89.37	&99.00	&92.42	&46.47	\\
+%-3&0.00	&0.00	&0.00	&33.00	&32.15	&36.18	&27.72	\\
+% \bottomrule	
+%    \end{tabular}
+%  \end{center}
+%  \caption[A Distribution of Repeaters for a Uniform Distribution of People]{The table of the number of conversations (reflecting the number of repeaters) at each point. The number of people is 1000. The level of hexagons is 3.}
+%  \label{tab:uniform}
+%\end{table}
+%
+%From Table~\ref{tab:uniform}, we have the total number of repeaters of 2,780. Hence, the actual number of repeaters needed (with help of PL tones) is 51.48. As there are $6\times(3^2)=54$ regions as well, the number of repeaters needed per 1 PL tone per 1 location is 0.953. This can be done easily since we have 3 frequency sets to serve. One concern is the service at the peak: the middle (point $(0,0)$). The original number of repeaters needed is 158.42. By using PL tones, we have the avearge of $2.93$ users using one PL tone. Again, this use can be accommadated by 3 different sets of frequencies. Thus, in this case, the total number of repeaters required is 51.48, approximately \boxed{52 \text{ repeaters}} , each holding differnt 54 PL tones.
+
+%Figure~\ref{sample1} is an example of repeater coordination.
+%\begin{figure}[!hbtp]
+%\makebox[\textwidth]{\framebox[8cm]{\rule{0pt}{8cm}}}
+%\includegraphics[width=7cm]{sample1.png}
+%\caption{Sample 1 Distribution of Repeaters (Maximum at the Middle).\label{white}}
+%\end{figure}
+
+%Figure~\ref{fig:sample1} is an example of repeater coordination.
+%\begin{figure}[ht]
+%\begin{center}
+%\scalebox{0.6}{\includegraphics{sample1}}
+%\end{center}
+%\caption[A Distribution of Repeaters for a Uniform People Distribution]{A Distribution of Repeaters (Maximum at the Middle).\label{sample1}}%
+%\label{fig:sample1}
+%\end{figure}
+
+\section{Sensitivity Analysis And Error Analysis}
+Idea: change the input. Say what if we know that someone is a conspirator
+or someone has a higher chance than $0.5,$
+how much the result will change.
+
+\subsection{What if Chris was a known conspirator and topic 1 was suspicious?}
+
+Suppose the following fact comes into light:
+\begin{enumerate}
+\item [1b] Chris is a also conspirator.
+\item [3b] Topic 1 is also suspicious.
+\end{enumerate}
+The list of known conspirators gets bigger 2 times it was.
+
+\textbf{Original data:}
+There are 19 people in the list of conspirators.
+They all have certainty of 1.0000 (rounding to 4 decimal places). The person next to the person in this list has
+a certainty of 0.0492, which drops dramatically from 1.
+So, there is a clear distinction between the two groups.
+Here are the list of those 19 people:
+\begin{verbatim}
+Gretchen(32), Alex, Yao, Elsie(7), Gretchen(4), Sherri,
+Patricia, Dolores, Paul, Frankin, Hazel, Julia, Ulf, Harvey,
+Neal(17), Douglas, Kristine, Neal(31), Jean.
+\end{verbatim}
+
+\textbf{With Facts~1b:}
+\section{Strengths and Weaknesses}
+
+\section{Possible Improvements}
+\begin{enumerate}
+\item We need to come up with an indicator of how good our results are.
+Like testing hypothesis. Suppose the conspirator groups are 
+like what we have, what would be a $p$-value?
+
+Possibly how much information is leak from the group.
+The less information leaks, the better our model.
+ [[[From here, it might be a good idea to go back
+and explain that it is not plausible to do exhausive search of
+$2^{83}$ possibilities.]]]
+\item Add the ability to adjust the number of people to do penalty: int(original/k), varying k.
+\item Consider the bosses (Jerome, Delores, Gretchen) more carefully.
+\item Keep the level of suspiciousness for 7, 11, 13 (or at least see how those change)
+\item Implement semantic network analysis. 
+	Or even now we notice some spanish stuff in more than one topic discussion
+	so we can maybe group the topic or somehow tie the scores of those topics together
+\item Think about the relationship to other fields: infected, diseased cells in a bio network
+\end{enumerate}
+	
+\section{Observations}
+If Elsie(37) is run as a known conspirator then Elsie(7) is still marked as one of the highest priority people and Elsie(37) has one of the lowest in the conspiracy.  This leads us to believe that the Elsie in the conspiracy is Elsie(7).
+  	
+Varying the typo between 1,8,10,111,12,13,14,15 has very little effect on the final output.  A couple of names are occasionally switched, but it does not unmark someone who is suspicious or add in someone who is suspicious.
+
+\section{Generalization}
+We will try to apply our methodology
+to solving other important cases around the world.
+Here are problems 
+
+
+\section{Conclusion}
+
+All's well that ends well.
+
+
+%%% ---------------
+%%% Bibliography
+
+%\nocite{*}   %%% Include everything in the thesis.bib file.  Be
+             %%% careful---some journals and fields expect you to only
+             %%% include references for materials that you have
+             %%% actually cited in your paper, others allow you to
+             %%% include materials you used as ``background'' without
+             %%% actually citing specific pages or passages.
+
+%%% Feel free to choose any bibliography style you like.
+\bibliographystyle{plainnat}
+%%% The filename (without the bib extension) of your bibliography file.
+\bibliography{icmmcm}
+
+\end{document}
+
+
+
+%TODO 
+% Identify leaders
+% Justify assumptions (including those about who the leader is)
+% Semantic network analysis
+%  (See Section 9
+\documentclass{icmmcm}
+%\usepackage[dvips]{graphicx}  % For importing graphics for use with
+                              % dvips.
+\usepackage[pdftex]{graphics} % For importing graphics for use with
+                              % pdftex or pdflatex.
+\usepackage[numbers]{natbib}
+
+%%% Sample ICM/MCM Contest Submission
+%%%
+%%% C.M. Connelly <cmc@math.hmc.edu>
+%%%   for the Department of Mathematics, Harvey Mudd College
+%%%   Copyright 2003. 
+
+
+%%% ---------------
+%%% Local Command and Environment Definitions
+
+%%% If you have any local command or environment definitions, put them
+%%% here or in a separate style file that you load with \usepackage.
+
+% \newtheorem declarations
+\newtheorem{Theo1}{Theorem}
+\newtheorem{Theo2}{Theorem}[section]
+\newtheorem{Lemma}[Theo2]{Lemma}
+% Each of the above defines a new theorem environment.
+% Multiple theorems can be done in the same environment.
+% Theo2's number is defined by the subsection it's in.
+% Theo3 uses the same numbering counter and numbering system as
+% Theo2 (that's the meaning of [Theo2]).
+
+
+%%% TeX has an excellent hyphenation algorithm, but sometimes it
+%%% gets confused and needs some help.
+%%%
+%%% For words that only occur once or twice, you can insert hints
+%%% directly into your text, as in
+%%%
+%%%    our data\-base system is one of the most complex ever devised
+%%%
+%%% For words that you use a lot, and that seem to keep ending up at
+%%% the end of a line, however, inserting the hints each time gets to
+%%% be a drag.  You can use the \hyphenation command  to globally tell
+%%% TeX where to hyphenate words it can't figure out on its own.
+
+\hyphenation{white-space}
+
+%%% End Local Command and Environment Definitions
+%%% ---------------
+
+
+%%% ---------------
+%%% Title Block
+
+\title{Conspirators Investigation}
+
+%%% Which contest are you taking part in?  (Just one!)
+
+\contest{ICM}
+
+%%% The question you answered.  (Again, just the one.)
+
+\question{C}
+
+%%% Your Contest Team Control Number
+\team{15118}
+
+
+%%% A normal document would specify the author's name (and possibly
+%%% their affiliation or other information) in an \author command.
+%%% Because the ICM/MCM Contest rules specify that the names of the
+%%% team members, their advisor, and their institution should not
+%%% appear anywhere in the report, do *not* define an \author command.
+
+%%% Defining the \date command is optional.  If you leave it blank,
+%%% your document will include the date that the file is typeset, in
+%%% the form  ``Month dd, yyyy''.
+
+% \date{}
+
+%%% End Title Block
+%%% ---------------
+
+\begin{document}
+
+%%% ---------------
+%%% Summary
+
+\begin{summary}
   The contest rules specify that you should include a one-page summary
   of your report.  This page appears before the rest of the report,
   and will have a special header attached to it that takes up the top
