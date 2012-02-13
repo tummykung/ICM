@@ -235,16 +235,24 @@ Paige, and Este are \textit{not} conspirators.
 %TODO1: Put the rationales too.
 %TODO2: Explain how these assumptions affect our algorithms.
 \begin{enumerate}
+
 \item Assume that it is unlikely that conspirators communicate
 conspiratorial topics to non-conspirators.\label{cons_inside}
 
 \item Assume that the conspirators are discussing the suspicious topic. \label{cons_susp}
 
 \item Assume that the more that a person discusses a suspicious topic the more likely that person is to be a conspirator.
+ We can weight topics discussed by conspirators more heavily than other topics. 
 \label{cons_involve}
-%\item Assume that the more involved a person is in a topic, the m
-\item Assume that non-conspirators are not likely to be participating in discussions of conspiratorial topics.
+
+\item 
+Assume that non-conspirators are not likely to be participating in discussions of
+conspiratorial topics to non-conspirators. 
+ We can weight topics that are sent to known non-conspirators less heavily than
+ those not discussed by non-conspirators.
 \label{cons_not_involve}
+
+\item Assume that the conspirators are discussing the suspicious topic.
 
 \item Assume that conspirators are more likely to be discussing topics that relate to the conspiracy than anyone else.
 Therefore if a know conspirator is participating a lot in a conversation topic,
@@ -606,7 +614,7 @@ $2^{83}$ possibilities.]]]
 \section{Observations}
 If Elsie(37) is run as a known conspirator then Elsie(7) is still marked as one of the highest priority people and Elsie(37) has one of the lowest in the conspiracy.  This leads us to believe that the Elsie in the conspiracy is Elsie(7).
   	
-
+Varying the typo between 1,8,10,111,12,13,14,15 has very little effect on the final output.  A couple of names are occasionally switched, but it does not unmark someone who is suspicious or add in someone who is suspicious.
 
 \section{Generalization}
 We will try to apply our methodology
