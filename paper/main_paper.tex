@@ -263,16 +263,17 @@ recent round of analysis.
 In this model, we define the following parameters:
 \begin{enumerate}
 \item  For each person $i$ where $i=0,1,2,\ldots, 82$, 
-we the probability (``certainty'')
-that each person is a conspirator, $c_i,$
+we define $c_i$ to be the certainty (which is probability)
+that each person is a conspirator,
 where $0\leq c_i \leq 1.$ 
 If $c_i=1$, for example, it means that the person
-with number $i$ has $100\%$ chance to be
+number $i$ has $100\%$ chance to be
 a conspirator, according to our model. 
 
 \item  For each person $i$ where $i=0,1,2,\ldots, 82$, in each round of running,
 we give that person a score $s_i$. High score indicates
-the likelihood to be a conspirator, based on the set
+the likelihood of that person being a conspirator, 
+based on the set
 of probability of people being conspirators from each round.
 The difference in the score $s_i$ and the probability $c_i$ of
 being a conspirator is that the score $s_i$ is calculated in each round
@@ -285,8 +286,15 @@ a discriminate line.
 we give a weight $w_j$ where $0\leq w_j\leq 1.$
 The more weight of the topic has, the more suspicious it is.
 
+\item Let $n_{\text{sent}}(i,j)$ be the total 
+number of messages $j$ that is sent by person $i$.
+Similarly, define $n_{\text{received}}(i,j)$ be the total 
+number of messages $j$ that is received by person $i$
+
 \item  We assign the involvement of person $i$ to the topic $j$ the number
-$\alpha_{i,j}.$
+$\alpha_{i,j}.$ This number can be calculated as follows:
+\[\alpha_{i,j} = \frac{n_{\text{sent}}(i,j) + n_{\text{received}}(i,j)}
+{\#total of topics j}\]
 \end{enumerate}
 
 Note that we use python to model the problem.
@@ -300,7 +308,7 @@ we know \textit{not} to be conspirators ($i=48,64,65,68,74,0,2,7$).
 Otherwise, we set $c_i = 0.5.$ In short, in the initial states
 \[c_i=
 \begin{cases}
-1,	& \text{person $i$ is known to be a conspirator}\\
+0.95,	& \text{person $i$ is known to be a conspirator}\\
 0,	& \text{person $i$ is known \textit{not} to be a conspirator}\\
 0.5,	&\text{otherwise.}
 \end{cases}\]
@@ -344,7 +352,7 @@ That is, we take the average with 0 and replace the original by the new value.
 Because the original $c_i$ is greater than 0, the net effect is that
 $c_i$ will be decreased so that it is closer to 0 by half-distance.
 
-\item The weights of the topics are then modified using the known certainties.  For each conversation, the weight is increased if the sender or receiver is most likely a conspirator and decreased if the sender or receiver is most likely not a conspirator. \[W_j + min(W_j,1-W_j) \cdot (c_i(a_{\text{Not Cosp.}}-a_{\text{Consp.}})+a_{\text{Not Consp.}})\] It is more difficult to move a topic that is know to be suspicious to not-suspicious than it is to move a topic that is neither suspicious nor not suspicious  to either extreme.  
+\item The weights of the topics are then modified using the known certainties.  For each conversation, the weight is increased if the sender or receiver is most likely a conspirator and decreased if the sender or receiver is most likely not a conspirator. \[w_j := w_j + \min(w_j,1-w_j) \cdot (c_i(a_{\text{Not Cosp.}}-a_{\text{Consp.}})+a_{\text{Not Consp.}})\] It is more difficult to move a topic that is know to be suspicious to not-suspicious than it is to move a topic that is neither suspicious nor not suspicious  to either extreme.  
 \end{enumerate}
 \section{Theorems}
 \begin{Theo1}
@@ -366,7 +374,7 @@ Everyone should be absorbed by exactly one group.
 %%=================NEW SECTION
 \section{Model Testing}
 
-Here is the result (sure we need to clean this up):
+Here is the result:
 
 \begin{verbatim}
 Rank      Name    Score    Certainty 
@@ -516,8 +524,23 @@ Idea: change the input. Say what if we know that someone is a conspirator
 or someone has a higher chance than $0.5,$
 how much the result will change.
 
-\subsection{What if Chris was a known conspirator?}
-The list of known conspirators gets bigger 2 times it was. 
+\subsection{What if Chris was a known conspirator and topic 1 was suspicious?}
+
+
+The list of known conspirators gets bigger 2 times it was.
+
+\textbf{Original data:}
+There are 19 people in the list of conspirators.
+They all have certainty of 1.0000 (rounding to 4 decimal places). The person next to the person in this list has
+a certainty of 0.0492, which drops dramatically from 1.
+So, there is a clear distinction between the two groups.
+Here are the list of those 19 people:
+\begin{verbatim}
+Gretchen(32), Alex, Yao, Elsie(7), Gretchen(4), Sherri,
+Patricia, Dolores, Paul, Frankin, Hazel, Julia, Ulf, Harvey,
+Neal(17), Douglas, Kristine, Neal(31), Jean.
+\end{verbatim}
+
 
 \section{Strengths and Weaknesses}
 
@@ -544,6 +567,13 @@ $2^{83}$ possibilities.]]]
 \section{Observations}
 If Elsie(37) is run as a known conspirator then Elsie(7) is still marked as one of the highest priority people and Elsie(37) has one of the lowest in the conspiracy.  This leads us to believe that the Elsie in the conspiracy is Elsie(7).
   	
+
+
+\section{Generalization}
+We will try to apply our methodology
+to solving other important cases around the world.
+Here are problems 
+
 
 \section{Conclusion}
 
