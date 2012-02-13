@@ -1,3 +1,10 @@
+%TODO SUBMIT
+% - send an email to solutions@comap.com (just pdf)
+% % subject: COMAP 15118
+% %
+% - print out 2 copies + sign control sheet before 3pm
+ 
+
 %TODO 
 % Identify leaders
 % Justify assumptions (including those about who the leader is)
@@ -92,11 +99,24 @@
 
 \begin{summary}
 
-After investigating a conspiracy within a company to embezzle funds and steal costumer credit card numbers, we have developed a model of the conspiracy.  The model revolves around tracking message topics among known conspirators, know non-conspirators and other members of the company.  A few of the topics were flagged as suspicious.
+After investigating a conspiracy within a company to embezzle
+funds and steal costumer credit card numbers, we have developed
+a model of the conspiracy.  The model revolves around tracking
+message topics among known conspirators, know
+non-conspirators and other members of the company.
+A few of the topics were flagged as suspicious.
 
-We weighted topics according to how much each person contributed to the topic and how likely each person is to be a conspirator.  Using these weights we assigned a score to each person, indicating how likely he/she is to be a conspirator. 
+We weighted topics according to how much each person
+contributed to the topic and how likely each person
+is to be a conspirator.  Using these weights we assigned
+a score to each person, indicating how likely he/she is
+to be a conspirator. 
 
-The model seemed to mark the same group of 15 people as the most likely to be conspirators regardless of the values for the parameters.  Despite the same core group of people being in put on the priority list, there was a large effect due to minor variations in the parameters.
+The model seemed to mark the same group of 15 people as
+the most likely to be conspirators regardless of the values
+for the parameters.  Despite the same core group of people
+being in put on the priority list, there was a large effect
+due to minor variations in the parameters.
 \\\\
 
 %  The contest rules specify that you should include a one-page summary
@@ -186,14 +206,14 @@ for a criminal case of a bank company.
 There are indications that there is a conspiracy within the company. 
 It is believed that the conspirators want to embezzle funds from
 the company and to steal funds from credit card.
-Careful logs have been kept of whom has sent messages related to each
-topic and whom received these messages.
+Careful logs have been kept of whom has sent messages related to each topic and whom received these messages.
 
 The goal to approach this problem is to determine a priority list, 
 to draw a discriminate line, and if possible to find
 conspiracy leaders. In addition, we also want to use semantic
 network analysis to improve the result and examine applications of
 our developed techniques in other fields such as diseased biology.
+
 
 
 We found an error in data in the input line 215 in the Excel:
@@ -212,21 +232,21 @@ Line    & Start  & End  & Text   & Text       & Text \\
 The text topic 3 is 18, which is out of range.
 See the assumption section for how we resolve this issue.
 
-\noindent -------------------- TODO:
-the history and context of the problem,
-and your work and results.  Your introduction should be more detailed
-and technical than your summary.  You may also want to include an
-outline of your report, along the lines of
-\begin{quotation}
-  In Section~1 we give our definitions and notation. Section~2
-  describes our numerical experiments\ldots{}..
-  
-  We prove our main result, Theorem~6, in Section~5\ldots{}.
-\end{quotation}
-Of course you would replace the numbers in that example with
-appropriate \verb|\ref| commands pointing to the correct
-\verb|\label|s in your source.\\
------------------------
+%\noindent -------------------- TODO:
+%the history and context of the problem,
+%and your work and results.  Your introduction should be more detailed
+%and technical than your summary.  You may also want to include an
+%outline of your report, along the lines of
+%\begin{quotation}
+%  In Section~1 we give our definitions and notation. Section~2
+%  describes our numerical experiments\ldots{}..
+%  
+%  We prove our main result, Theorem~6, in Section~5\ldots{}.
+%\end{quotation}
+%Of course you would replace the numbers in that example with
+%appropriate \verb|\ref| commands pointing to the correct
+%\verb|\label|s in your source.\\
+%-----------------------
 
 \section{Given Information}
 \begin{enumerate}
@@ -272,7 +292,21 @@ The algorithm works primarily by giving a different weight to each of the
 topics based on who is in the conversation. We will run the algorithm
 a couple of times to adjust the likelihood of being conspirators
 based on the new information gained from the most 
-recent round of analysis.
+recent round of analysis. 
+
+Figure~\ref{fig:flow_chart} shows the basic 
+structure of our algorithm.
+\begin{figure}[ht]
+\begin{center}
+\scalebox{0.45}{\includegraphics{flow_chart}}
+\end{center}
+\caption[Algorithm Flow Chart]
+{Flow Chart of the Algorithm.\label{flow_chart}}%
+\label{fig:flow_chart}
+\end{figure}
+
+
+
 
 \subsection{Setting Up}
 In this model, we define the following parameters:
@@ -303,10 +337,14 @@ The more weight of the topic has, the more suspicious it is.
 The initial weighs are $w_7 = w_{11} = w_{13} = 0.95$ based
 on the  given information~\eqref{known_sus_topics}.
 For other $i$, we let $w_i = 0.1,$ as an initial 
-experimental value. We will see later that even
+experimental value. We will see later that even if
 we start with $w_i = 0.1,$ many topics such as 
 topic 3 will get more and more weights so that
-it converges to 1.0.
+it converges to 1.0. One reason we did not set the initial
+value of $w_7, w_{11}, w_{13}$ to be 1.00 was that
+we still allowed these topics to go down the list with
+small probability, but they all converge to 1.00 
+in later runs, as expected.
 
 \item Let $n_{\text{sent}}(i,j)$ be the total 
 number of messages $j$ that is sent by person $i$.
@@ -333,7 +371,7 @@ where get these numbers by experiment.
 \item $a_{\text{Conspirator Sent}} = 0.25$
 \end{enumerate}
 
-These numbers are based on Assumptions \eqref{cons_inside}, \eqref{cons_involve}, \eqref{cons_not_involve}, 
+These numbers are based on Assumptions \eqref{cons_inside}, \eqref{cons_involve}, \eqref{cons_not_involve}, and
 \eqref{cons_topic}.
 Note that we use python to model the problem.
 
@@ -376,10 +414,10 @@ if he or she has a
 rank higher than that of the lowest-score known conspirators less a constant,
 we adjust his or her certainty (probability) by the following scheme:
 \begin{equation}
-c_i := (1-\alpha_{\text{up}})c_i + 1\cdot \alpha_{\text{up}},
+c_i := (1-\beta_{\text{up}})c_i + 1\cdot \beta_{\text{up}},
 \label{push_up}
 \end{equation}
-where we set $\alpha_{\text{up}} = 0.7.$
+where we set $\beta_{\text{up}} = 0.7.$
 That is, we take the average with 1 and replace the original by the new value. 
 Because the original $c_i$ is less than 1, the net effect is that
 $c_i$ will be increased so that it is closer to 1 by half-distance.
@@ -390,11 +428,14 @@ if he or she has a
 rank lower than the highest-score known non-conspirators plus a constant,
 we adjust his or her certainty (probability) by the following scheme:
 \begin{equation}
-c_i := (1 - \alpha_{\text{down}})c_i + 0\cdot \alpha_{\text{down}},
+c_i := (1 - \beta_{\text{down}})c_i + 0\cdot \beta_{\text{down}},
 \label{push_down}
 \end{equation}
-where we set $\alpha_{\text{down}} = 0.1.$
-That is, we take the average with 0 and replace the original by the new value. 
+where we set $\beta_{\text{down}} = 0.1.$
+That is, we push $c_i$ to 0 by $10\%$ of its original distance.
+We keep this percentage low because we do not want
+the non-suspicious topics to converge to 0 too quickly, since
+we start up with only a few suspicious topics.
 Because the original $c_i$ is greater than 0, the net effect is that
 $c_i$ will be decreased so that it is closer to 0 by half-distance.
 
@@ -409,7 +450,7 @@ A minimum is used to reduce the amount that a single person can affect the weigh
 \subsection{Remark}
 The iteration in the algorithm makes the priority list 
 \textit{converge}, which means after some specific
-number of runs, the run based the certainty from the obtained list gives out the same list.
+number of runs, the run based on the certainty from the obtained list gives out the same list.
 The idea might of why this is true is because we push to 1 the 
 probability of people who have
 ranks higher than that of the lowest-score known conspirators
@@ -419,114 +460,176 @@ So everyone should be absorbed by exactly one group.
 
 %%=================NEW SECTION
 \section{Model Testing}
+Here is the resulting weight of topics after
+running the iteration for 40 rounds.
+\begin{table}[htb]
+\begin{center}
+\begin{tabular}{|r|l|c|r|l|} 
+\toprule
+Topic	& Weight && Topic &Weight\\
+\midrule   
+\hline
+1    	&0.0000	&& 9    	&0.0000\\
+2    	&0.0000 && 10   	&0.0000\\
+3    	&1.0000 && 11   	&1.0000\\
+4    	&0.0000 && 12   	&0.0000\\
+5    	&0.0000 && 13   	&1.0000\\
+6    	&0.0000 && 14   	&0.0000\\
+7    	&1.0000 && 15   	&0.0000\\
+8    	&0.0000 && &\\
+\bottomrule	
+    \end{tabular}
+  \end{center}
+  \caption[A Result of the Weights of Topics]
+  {A Result of the Weights of Topics.}
+  \label{tab:topics}
+\end{table}
+This means that apart from known suspicious topics 7, 11, 13,
+topics 3 is also part of the conspiracy discussion. Some variations of initial values of constants such as $\beta_{\text{up}}$ and $\beta_{\text{down}}$
+make topics 4 and 1 also appear in the list. The given information are reasonable because those
+topics are directly relevant to the accounting, credit cards, potential system flaws and private meetings.
+However, the result that topic 3 also becomes suspicious
+is rather surprising. Topic 3 is about complaints about
+cleanliness and maintenance of the office building. 
+We guess that they might use the specified location
+as a signal of the place where they perform criminal acts.
 
-Here is the result:
-
+Tables~\ref{tab:priority} and \ref{tab:priority2}
+show the resulting priority list.
+\footnote{see Observation Part for explanations of the ambiguity in names (e.g. Elsie 7 v.s. 37). In cases of ambiguity,
+we put the number associated with that person in parenthesis
+, i.e., 
+Also note that the tables
+start from rank 0.}
+There are 15 people in the conspiracy list (rank in this order):
 \begin{verbatim}
-Rank      Name    Score    Certainty 
-
-0    Gretchen(32)  0.671   0.9988
-1    Yao           0.617   1.0000
-2    Alex          0.592   1.0000
-3    Elsie(7)      0.578   1.0000
-4    Sherri        0.477   0.9988
-5    Gretchen(4)   0.468   0.9981
-6    Patricia      0.465   0.9988
-7    Paul          0.445   1.0000
-8    Franklin      0.442   0.9955
-9    Dolores       0.398   0.9981
-10   Hazel         0.388   0.9955
-11   Jean          0.371   1.0000
-12   Paige         0.332   0.0000
-13   Neal(17)      0.325   0.8625
-14   Julia         0.312   0.8608
-15   Harvey        0.311   1.0000
-16   Darlene       0.300   0.0000
-17   Ulf           0.295   1.0000
-18   Jerome(34)    0.285   0.5019
-19   Neal(31)      0.283   0.2952
-20   Douglas       0.272   0.2952
-21   Kristine      0.269   0.2952
-22   Donald        0.266   0.2952
-23   Lois          0.255   0.2952
-24   Marcia        0.250   0.2952
-25   Marion        0.243   0.2952
-26   Eric          0.242   0.2952
-27   Francis       0.238   0.2952
-28   Jerome(16)    0.237   0.2952
-29   Christina     0.236   0.2952
-30   Patrick       0.234   0.2952
-31   Beth(38)      0.232   0.2952
-32   Dwight        0.231   0.2952
-33   Kristina      0.218   0.2952
-34   Elsie(37)     0.218   0.2952
-35   Reni          0.196   0.2952
-36   Wayne         0.194   0.2952
-37   Stephanie     0.186   0.2952
-38   Chris         0.184   0.0000
-39   Sandy         0.178   0.2952
-40   Beth(14)      0.177   0.2952
-41   Crystal       0.165   0.2952
-42   Shelley       0.159   0.2952
-43   Karen         0.159   0.2952
-44   William       0.159   0.2952
-45   Priscilla     0.158   0.2952
-46   Katherine     0.154   0.2952
-47   Erica         0.143   0.2952
-48   Louis         0.142   0.2952
-49   Seeni         0.138   0.2952
-50   Han           0.114   0.2952
-51   Bariol        0.108   0.2952
-52   Marian        0.107   0.2952
-53   Gerry         0.088   0.2952
-54   Malcolm       0.084   0.2952
-55   Fanti         0.084   0.2952
-56   Jia           0.081   0.2952
-57   Cory          0.080   0.2952
-58   Cole          0.080   0.2952
-59   Este          0.073   0.0000
-60   Vind          0.072   0.2952
-61   Kim           0.063   0.2952
-62   Wesley        0.062   0.2952
-63   Andra         0.061   0.2952
-64   Lars          0.053   0.2952
-65   Claire        0.052   0.2952
-66   Ellin         0.048   0.0000
-67   Cha           0.034   0.2952
-68   Sheng         0.034   0.2952
-69   Chara         0.032   0.2952
-70   Phille        0.029   0.2952
-71   Dayi          0.025   0.2952
-72   Olina         0.024   0.2952
-73   Hark          0.024   0.2952
-74   Melia         0.000   0.2952
-75   Gard          0.000   0.0000
-76   Carina        0.000   0.2952
-77   Quan          0.000   0.2952
-78   Tran          0.000   0.0000
-79   Mai           0.000   0.2952
-80   Lao           0.000   0.2952
-81   Darol         0.000   0.2952
-82   Le            0.000   0.2952
---------------------------------------------------
-Topic Weight
-1    0.0000
-2    0.0000
-3    1.0000
-4    1.0000
-5    0.0000
-6    1.0000
-7    1.0000
-8    0.0001
-9    1.0000
-10   0.0000
-11   1.0000
-12   0.0000
-13   1.0000
-14   1.0000
-15   0.0001
---------------------------------------------------
+Alex, Yao, Elsie(7), Gretchen(32), Ulf, Patricia, Paul, Sherri, Gretchen(4),Harvey, Neal(17), Dolores, Jerome(34), Christina and Jean 
 \end{verbatim}
+
+The discriminate line between Jean and Eric. We think that
+Alex and Yao as the leaders, because their scores are
+0.564 and 0.512 respectively and the next person's score
+drops dramatically to 0.384.
+
+If we take a close look at the three senior managers, 
+Dolores, Gretchen, and Jerome, at least two or three of the senior managers, Dolores and Gretchen, are likely part of the conspiracy, but Jerome may or may not be depending on which Jerome was labelled as 34 on the spreadsheet.
+
+\twocolumn
+\begin{table}[h!]
+\begin{center}
+\begin{tabular}{|@{}r@{}||l|c|@{}c@{}|} 
+\toprule
+ Rank 	&     Name    	&Score    &Certainty \\ 
+\midrule   
+\hline
+0    	&Alex         	& 0.564	&    1.000\\
+1    	&Yao          	& 0.512	&    1.000\\
+2    	&Elsie(7)     	& 0.384	&    1.000\\
+3    	&Gretchen(32) 	& 0.326	&    1.000\\
+4    	&Ulf          	& 0.295	&    1.000\\
+5    	&Patricia     	& 0.259	&    1.000\\
+6    	&Paul         	& 0.243	&    1.000\\
+7    	&Sherri       	& 0.218	&    1.000\\
+8    	&Gretchen(4)  	& 0.193	&    1.000\\
+9    	&Harvey       	& 0.192	&    1.000\\
+10   	&Neal(17)     	& 0.186	&    1.000\\
+11   	&Dolores      	& 0.163	&    1.000\\
+12   	&Jerome(34)   	& 0.155	&    1.000\\
+13   	&Christina    	& 0.155	&    1.000\\
+14   	&Jean         	& 0.155	&    1.000\\
+15   	&Eric         	& 0.151	&    0.225\\
+16   	&Jerome(16)   	& 0.145	&    0.225\\
+17   	&Marion       	& 0.142	&    0.225\\
+18   	&Seeni        	& 0.138	&    0.203\\
+19   	&Elsie(37)    	& 0.136	&    0.004\\
+20   	&Franklin     	& 0.130	&    0.004\\
+21   	&Patrick      	& 0.126	&    0.004\\
+22   	&Donald       	& 0.123	&    0.004\\
+23   	&Dwight       	& 0.113	&    0.004\\
+24   	&Neal(31)     	& 0.111	&    0.004\\
+25   	&Julia        	& 0.107	&    0.004\\
+26   	&Hazel        	& 0.107	&    0.004\\
+27   	&Francis      	& 0.105	&    0.004\\
+28   	&Katherine    	& 0.105	&    0.004\\
+29   	&Wayne        	& 0.103	&    0.004\\
+30   	&Shelley      	& 0.101	&    0.004\\
+31   	&Kristine     	& 0.088	&    0.004\\
+32   	&Crystal      	& 0.088	&    0.004\\
+33   	&Beth(38)     	& 0.082	&    0.004\\
+34   	&Lois         	& 0.082	&    0.004\\
+35   	&William      	& 0.079	&    0.004\\
+36   	&Bariol       	& 0.076	&    0.004\\
+37   	&Sandy        	& 0.073	&    0.004\\
+38   	&Reni         	& 0.073	&    0.004\\
+39   	&Priscilla    	& 0.069	&    0.004\\
+40   	&Stephanie    	& 0.063	&    0.004\\
+41   	&Kim          	& 0.063	&    0.004\\
+\hline
+ \bottomrule	
+    \end{tabular}
+  \end{center}
+  \caption[A Result of the Priority List]
+  {A priority list result of our program.}
+  \label{tab:priority}
+\end{table}
+
+\begin{table}[h!]
+\begin{center}
+\begin{tabular}{|@{}r@{}||l|c|@{}c@{}|} 
+\toprule
+ Rank 	&     Name    	&Score    &Certainty \\ 
+\midrule   
+\hline
+42   	&Douglas      	& 0.063	&    0.004\\
+43   	&Malcolm      	& 0.059	&    0.004\\
+44   	&Karen        	& 0.054	&    0.004\\
+45   	&Marcia       	& 0.054	&    0.004\\
+46   	&Louis        	& 0.054	&    0.004\\
+47   	&Jia          	& 0.054	&    0.004\\
+48   	&Fanti        	& 0.054	&    0.004\\
+49   	&Vind         	& 0.048	&    0.004\\
+50   	&Cory         	& 0.048	&    0.004\\
+51   	&Cole         	& 0.048	&    0.004\\
+52   	&Wesley       	& 0.034	&    0.004\\
+53   	&Cha          	& 0.034	&    0.004\\
+54   	&Sheng        	& 0.034	&    0.004\\
+55   	&Beth(14)     	& 0.029	&    0.004\\
+56   	&Erica        	& 0.029	&    0.004\\
+57   	&Han          	& 0.029	&    0.004\\
+58   	&Andra        	& 0.029	&    0.004\\
+59   	&Phille       	& 0.029	&    0.004\\
+60   	&Dayi         	& 0.025	&    0.004\\
+61   	&Lars         	& 0.025	&    0.004\\
+62   	&Kristina     	& 0.000	&    0.004\\
+63   	&Chara        	& 0.000	&    0.004\\
+64   	&Claire       	& 0.000	&    0.004\\
+65   	&Marian       	& 0.000	&    0.004\\
+66   	&Melia        	& 0.000	&    0.004\\
+67   	&Mai          	& 0.000	&    0.004\\
+68   	&Olina        	& 0.000	&    0.004\\
+69   	&Quan         	& 0.000	&    0.004\\
+70   	&Carina       	& 0.000	&    0.004\\
+71   	&Le           	& 0.000	&    0.004\\
+72   	&Hark         	& 0.000	&    0.004\\
+73   	&Gerry        	& 0.000	&    0.004\\
+74   	&Lao          	& 0.000	&    0.004\\
+75   	&Darol        	& 0.000	&    0.004\\
+76   	&Paige        	& 0.138	&    0.000\\
+77   	&Darlene      	& 0.088	&    0.000\\
+78   	&Este         	& 0.073	&    0.000\\
+79   	&Chris        	& 0.048	&    0.000\\
+80   	&Ellin        	& 0.048	&    0.000\\
+81   	&Tran         	& 0.000	&    0.000\\
+82   	&Gard         	& 0.000	&    0.000\\
+\hline
+ \bottomrule	
+    \end{tabular}
+  \end{center}
+  \caption[A Result of the Priority List (cont.)]
+  {A priority list result of our program (cont.).}
+  \label{tab:priority2}
+\end{table}
+\onecolumn
 
 %Take a look at an example below, where we put the city into our hexagonal coordinate (Both X and Y range from -3 to 3):
 %\begin{table}[htbp]
@@ -593,7 +696,13 @@ Neal(17), Douglas, Kristine, Neal(31), Jean.
 \end{verbatim}
 
 \textbf{With Facts~1b and 3b:}
-The resulting list of conspirators has more conspirators than what it had.
+The resulting list of conspirators has more conspirators than what it had. Here is a new list
+\begin{verbatim}
+Gretchen(32), Alex, Yao, Elsie(7) Sherri, Patricia, Paul,
+ Franklin, Gretchen(4), Dolores, Haze, Neal(17), Julia, Jean,
+  Ulf, Harvey 
+\end{verbatim} 
+ Also, Gretchen(32), Alex, Yao, and Elsie(7) as the likely leaders.
 \section{Strengths and Weaknesses of the Model}
 \subsection{Strengths}
 \begin{enumerate}
@@ -612,34 +721,40 @@ radically.
 
 \section{Possible Improvements}
 \begin{enumerate}
-\item We need to come up with an indicator of how good our results are.
-Like testing hypothesis. Suppose the conspirator groups are 
-like what we have, what would be a $p$-value?
+\item It would be great if we have an analytic indicator of how good our results are, similar to a $p$-value in statistic
+test where we can determine to what extent we can trust
+the hypothesis (which, in our case, would be the 
+proposed priority list with the proposed discriminate line)
 
-Possibly how much information is leak from the group.
+
+One possible indicator is how much information has leaked from the conspiracy group. We think that the extent to which conspiracy group keeps conspiratorial topics is one indicator
+how much reliable our model is (see Assumption \eqref{cons_inside}). 
 The less information leaks, the better our model.
- [[[From here, it might be a good idea to go back
-and explain that it is not plausible to do exhausive search of
-$2^{83}$ possibilities.]]]
-\item Add the ability to adjust the number of people to do penalty: int(original/k), varying k.
-\item Consider the bosses (Jerome, Delores, Gretchen) more carefully.
-\item Keep the level of suspiciousness for 7, 11, 13 (or at least see how those change)
+From here, we can see the need of our model, because
+it is not plausible to do exhaustive search of
+$2^{83}$ possibilities of every subset of $83$ people.
+
+\item Add the ability to adjust the number of people to do 
+adjust the certainty. So far we use the lowest-ranking known conspirator as a cut-off part and increase the certainty
+of every one above this line. We can add more flexibility 
+to this rule.
+
 \item Implement semantic network analysis. 
-	Or even now we notice some spanish stuff in more than one topic discussion
-	so we can maybe group the topic or somehow tie the scores of those topics together
-\item Think about the relationship to other fields: infected, diseased cells in a bio network
+	Or even now we manually notice some Spanish-related things occur in more than one topic discussions,
+	so we can maybe group the topic or somehow tie the weights of those topics together. Spanish seems to be a key 
+	because the known suspicious topic 7 possibly uses
+	Spanish as codes.
 \end{enumerate}
 
 \section{Observations}
 \begin{enumerate}
-\item Issues about the same name.
 
 \item If Elsie(37) is run as a known conspirator then Elsie(7) is still marked as one of the highest priority people and Elsie(37) has one of the lowest in the conspiracy.  This leads us to believe that the Elsie in the conspiracy is Elsie(7).
 
 \item Varying the typo between 1, 8, 10, 11, 12, 13, 14, 15 has very little effect on the final output.  A couple of names are occasionally switched, but it does not unmark someone who is suspicious or add in someone who is suspicious.
 \end{enumerate}
 
-\section{Generalization}
+\section{Generalizations}
 We will try to apply our methodology
 to solving other important cases around the world.
 Here are some examples:
@@ -651,12 +766,12 @@ Here are some examples:
 
 \section{Conclusion}
 
-After running our model, we concluded the conspirators are most likely 
-Alex, Yao, Elsie(7), Gretchen(32), Ulf, Patricia, Paul, Sherri, Gretchen(4),Harvey, Neal(17), Dolores, Jerome(34), Christina and Jean with Alex and Yao as the leaders. At least two or three of the senior managers, Dolores and Gretchen, are likely part of the conspiracy, but Jerome may or may not be depending on which Jerome was labelled as 34 on the spreadsheet.
+After running our model, we concluded the conspirators are most likely Alex, Yao, Elsie(7), Gretchen(32), Ulf, Patricia, Paul, Sherri, Gretchen(4),Harvey, Neal(17), Dolores, Jerome(34), Christina and Jean with Alex and Yao as the leaders. At least two or three of the senior managers, Dolores and Gretchen, are likely part of the conspiracy, but Jerome may or may not be depending on which Jerome was labelled as 34 on the spreadsheet.
 
- If Chris is a known conspirator and topic 1 is suspicious, then Gretchen(32), Alex, Yao, Elsie(7) Sherri, Patricia, Paul, Franklin, Gretchen(4), Dolores, Haze, Neal(17), Julia, Jean, Ulf, Chris and Harvey are the likely conspirators with Gretchen(32), Alex, Yao, and Elsie(7) as  the likely leaders. 
+ If Chris is a known conspirator and topic 1 is suspicious, then Gretchen(32), Alex, Yao, Elsie(7) Sherri, Patricia, Paul, Franklin, Gretchen(4), Dolores, Haze, Neal(17), Julia, Jean, Ulf, Chris and Harvey are the likely conspirators with Gretchen(32), Alex, Yao, and Elsie(7) as the likely leaders. 
  
  We could use text analysis to find specific phrases from known conspirators that appear to be suspicious and see if these specific phrases appear elsewhere(inside the same topic or outside the topic) and weight those specific conversations as very suspicious.  We did not analyse the Topics.xml for common thems that could tie multiple topics together.
+
 
 
 %%% ---------------
